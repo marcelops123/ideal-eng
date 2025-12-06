@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Home Page - IDEAL Landing Page
  * Design: Minimalismo Corporativo Geométrico
@@ -11,72 +13,147 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import SectionHeader from "@/components/SectionHeader";
 import { Mail, Phone, MapPin, Users, Target, Briefcase } from "lucide-react";
+import { motion } from "framer-motion";
+import React from "react";
+
+// Container com fade-in geral da página
+const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    className="bg-black text-white min-h-screen"
+  >
+    {children}
+  </motion.div>
+);
+
+// Section com fade-in ao entrar na tela (scroll)
+interface AnimatedSectionProps extends React.HTMLAttributes<HTMLElement> {
+  id?: string;
+}
+
+const AnimatedSection: React.FC<AnimatedSectionProps> = ({
+  children,
+  className = "",
+  ...rest
+}) => (
+  <motion.section
+    {...rest}
+    className={className}
+    initial={{ opacity: 0, y: 32 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+  >
+    {children}
+  </motion.section>
+);
+
+// Imagem com fadeInLeft / fadeInRight
+interface FadeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  direction?: "left" | "right";
+}
+
+const FadeImage: React.FC<FadeImageProps> = ({
+  direction = "left",
+  className = "",
+  ...rest
+}) => {
+  const x = direction === "left" ? -50 : 50;
+
+  return (
+    <motion.img
+      initial={{ opacity: 0, x }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+      {...rest}
+    />
+  );
+};
 
 export default function Home() {
   return (
-    <div className="bg-black text-white min-h-screen">
+    <AnimatedPage>
       <Navigation />
 
       {/* Hero Section */}
       <Hero />
 
       {/* Section 1: Quem Somos */}
-      <section
+      <AnimatedSection
         id="quem-somos"
-        className="py-20 bg-black border-b border-[#2a2a2a]"
+        className="bg-black border-b border-[#2a2a2a] pt-28 pb-16 md:py-20 scroll-mt-24 md:scroll-mt-32"
       >
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader number="1" title="Quem Somos" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-30">
             {/* Left Content */}
-            <div className="space-y-6">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+            >
               <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                A IDEAL é uma empresa que presta serviços de Assessoria em
-                Engenharia, Segurança do Trabalho, Saúde Ocupacional e Meio
-                Ambiente.
+                A IDEAL é uma empresa que presta serviços de Assessoria em Engenharia,
+                Segurança do Trabalho, Saúde Ocupacional e Meio Ambiente.
               </p>
 
               <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                A qualidade do nosso serviço e a preocupação genuína com o
-                cliente são o diferencial de nossa marca. Oferecemos aos
-                clientes uma solução customizada para garantir a minimização de
-                passivos trabalhistas, atendimento aos requisitos legais e
-                promover a saúde e a segurança de todos.
+                A qualidade do nosso serviço e a preocupação genuína com o cliente são
+                o diferencial de nossa marca. Oferecemos aos clientes uma solução
+                customizada para garantir a minimização de passivos trabalhistas,
+                atendimento aos requisitos legais e promover a saúde e a segurança de
+                todos.
               </p>
 
               {/* Stats */}
               <div className="grid grid-cols-2 gap-6 pt-8">
-                <div className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors">
-                  <div className="text-3xl font-bold text-[#FF5722] mb-2">
-                    15+
-                  </div>
+                <motion.div
+                  className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                >
+                  <div className="text-3xl font-bold text-[#FF5722] mb-2">15+</div>
                   <p className="text-[#b0b0b0]">Anos de Experiência</p>
-                </div>
-                <div className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors">
-                  <div className="text-3xl font-bold text-[#FF5722] mb-2">
-                    10+
-                  </div>
+                </motion.div>
+                <motion.div
+                  className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.25 }}
+                >
+                  <div className="text-3xl font-bold text-[#FF5722] mb-2">10+</div>
                   <p className="text-[#b0b0b0]">Estados Atendidos</p>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Image */}
             <div className="relative">
-              <img
+              <FadeImage
                 src="/images/team-section.jpg"
                 alt="Time IDEAL"
+                direction="right"
                 className="w-full rounded-sm shadow-2xl"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40 rounded-sm" />
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
+
 
       {/* Section 2: Visão & Missão */}
-      <section
+      <AnimatedSection
         id="visao-missao"
         className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
       >
@@ -85,7 +162,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Visão */}
-            <div className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all">
+            <motion.div
+              className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7 }}
+            >
               <h3 className="text-3xl font-bold text-[#FF5722] mb-4 uppercase">
                 Visão
               </h3>
@@ -94,10 +177,16 @@ export default function Home() {
                 capacitação de qualidade, cumprimento à legislação pertinente e
                 favorável à produção, garantindo o bem-estar de todos.
               </p>
-            </div>
+            </motion.div>
 
             {/* Missão */}
-            <div className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all">
+            <motion.div
+              className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+            >
               <h3 className="text-3xl font-bold text-[#FF5722] mb-4 uppercase">
                 Missão
               </h3>
@@ -106,39 +195,51 @@ export default function Home() {
                 Saúde e Meio Ambiente, entregando excelência em qualidade para
                 nossos clientes.
               </p>
-            </div>
+            </motion.div>
           </div>
 
           {/* Image */}
           <div className="mt-12">
-            <img
+            <FadeImage
               src="/images/innovation-tech.jpg"
               alt="Inovação e Tecnologia"
+              direction="left"
               className="w-full rounded-sm shadow-2xl"
             />
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 3: Cases de Negócios */}
-      <section
+      <AnimatedSection
         id="cases"
         className="py-20 bg-black border-b border-[#2a2a2a]"
       >
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader number="3" title="Cases de Negócios" />
 
-          <p className="text-lg text-[#b0b0b0] mb-12 leading-relaxed max-w-3xl">
-            Somos referência nacional no quesito de desenvolvimento de
-            assessorias customizadas, procedimentos internos, laudos, inventários
-            de segurança, melhorias contínuas de processos, projetos e
-            terceirização de mão de obra com crivo de avaliação e seleção de
-            alta performance.
-          </p>
+          <motion.p
+            className="text-lg text-[#b0b0b0] mb-12 leading-relaxed max-w-3xl"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+          >
+            Somos referência nacional no quesito de desenvolvimento de assessorias
+            customizadas, procedimentos internos, laudos, inventários de
+            segurança, melhorias contínuas de processos, projetos e terceirização
+            de mão de obra com crivo de avaliação e seleção de alta performance.
+          </motion.p>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Case 1: Nexa Resources */}
-            <div className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all">
+            <motion.div
+              className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center">
                   <Briefcase className="w-6 h-6 text-white" />
@@ -152,10 +253,16 @@ export default function Home() {
                 <li>✓ Criação de Novos Anexos</li>
                 <li>✓ Capacitação do Time Nexa</li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Case 2: Laticínio Canto de Minas */}
-            <div className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all">
+            <motion.div
+              className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center">
                   <Target className="w-6 h-6 text-white" />
@@ -175,13 +282,13 @@ export default function Home() {
                 <li>✓ Plano de trabalho priorizado</li>
                 <li>✓ Ações de curto e longo prazo</li>
               </ul>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 4: Nossos Serviços */}
-      <section
+      <AnimatedSection
         id="servicos"
         className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
       >
@@ -223,9 +330,13 @@ export default function Home() {
                 desc: "Assessorias personalizadas com análises de riscos, diagnósticos, auditorias e investigação de acidentes.",
               },
             ].map((service, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="p-6 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:shadow-lg hover:shadow-[#FF5722]/10 transition-all group"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.05 * idx }}
               >
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <span className="text-white font-bold text-lg">
@@ -236,14 +347,14 @@ export default function Home() {
                   {service.title}
                 </h3>
                 <p className="text-[#b0b0b0]">{service.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 5: Etapas de Trabalho */}
-      <section
+      <AnimatedSection
         id="etapas"
         className="py-20 bg-black border-b border-[#2a2a2a]"
       >
@@ -268,9 +379,13 @@ export default function Home() {
                 desc: "Garantimos todas as entregas as que nos foram concedidas com pontualidade, qualidade e responsabilidade.",
               },
             ].map((item, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="relative flex gap-8 pb-8 border-l-4 border-[#FF5722] pl-8 last:border-l-0 last:pb-0"
+                initial={{ opacity: 0, x: -32 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 * idx }}
               >
                 {/* Step Circle */}
                 <div className="absolute -left-6 top-0 w-12 h-12 bg-[#FF5722] rounded-full flex items-center justify-center text-white font-bold text-lg">
@@ -286,14 +401,14 @@ export default function Home() {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 6: Atuação pelo Brasil */}
-      <section
+      <AnimatedSection
         id="atuacao"
         className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
       >
@@ -312,19 +427,23 @@ export default function Home() {
               "Syngenta - MG",
               "Aura Minerals - RN",
             ].map((client, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="p-4 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:bg-[#FF5722]/5 transition-all text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.05 * idx }}
               >
                 <p className="text-[#b0b0b0] font-medium">{client}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 7: Estados em que Atuamos */}
-      <section
+      <AnimatedSection
         id="estados"
         className="py-20 bg-black border-b border-[#2a2a2a]"
       >
@@ -344,19 +463,23 @@ export default function Home() {
               "São Paulo",
               "Amazonas",
             ].map((state, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="p-4 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:bg-[#FF5722]/5 transition-all text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.05 * idx }}
               >
                 <p className="text-[#b0b0b0] font-medium">{state}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 8: Alguns Parceiros */}
-      <section
+      <AnimatedSection
         id="parceiros"
         className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
       >
@@ -375,21 +498,25 @@ export default function Home() {
               "Nidera/Syngenta",
               "CMOC",
             ].map((partner, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="p-6 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:shadow-lg hover:shadow-[#FF5722]/10 transition-all flex items-center justify-center min-h-24"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.5, delay: 0.05 * idx }}
               >
                 <p className="text-[#b0b0b0] font-medium text-center">
                   {partner}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 9: Espaço Confinado */}
-      <section
+      <AnimatedSection
         id="espaco-confinado"
         className="py-20 bg-black border-b border-[#2a2a2a]"
       >
@@ -398,7 +525,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Content */}
-            <div className="space-y-6">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7 }}
+            >
               <h3 className="text-3xl font-bold text-[#FF5722] uppercase">
                 O Melhor Inventário de Espaço Confinado do Brasil!
               </h3>
@@ -425,35 +558,48 @@ export default function Home() {
                 operacional e o cumprimento das exigências legais em todos os
                 ambientes de trabalho.
               </p>
-            </div>
+            </motion.div>
 
             {/* Image */}
             <div>
-              <img
+              <FadeImage
                 src="/images/workplace-safety.jpg"
                 alt="Espaço Confinado"
+                direction="right"
                 className="w-full rounded-sm shadow-2xl"
               />
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 10: Contato Comercial */}
-      <section
+      <AnimatedSection
         id="contato-comercial"
         className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
       >
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader number="10" title="Contato Comercial" />
 
-          <div className="max-w-2xl">
+          <motion.div
+            className="max-w-2xl"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+          >
             <p className="text-lg text-[#b0b0b0] mb-8">
               Entre em contato conosco e conheça o nosso trabalho.
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-start gap-4">
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5 }}
+              >
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-white" />
                 </div>
@@ -466,9 +612,15 @@ export default function Home() {
                     contato@idealsst.com
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-start gap-4">
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
+              >
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
                   <Phone className="w-6 h-6 text-white" />
                 </div>
@@ -481,9 +633,15 @@ export default function Home() {
                     (38) 99902-9541
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-start gap-4">
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-6 h-6 text-white" />
                 </div>
@@ -495,9 +653,15 @@ export default function Home() {
                     Paracatu - MG
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-start gap-4">
+              <motion.div
+                className="flex items-start gap-4"
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+              >
                 <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
                   <Briefcase className="w-6 h-6 text-white" />
                 </div>
@@ -507,14 +671,14 @@ export default function Home() {
                     48.755.949/0001-28
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Section 11: Contato Diretoria */}
-      <section id="contato-diretoria" className="py-20 bg-black">
+      <AnimatedSection id="contato-diretoria" className="py-20 bg-black">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader number="11" title="Contato Diretoria" />
 
@@ -533,9 +697,13 @@ export default function Home() {
                 email: "pedrogomes@idealsst.com",
               },
             ].map((director, idx) => (
-              <div
+              <motion.div
                 key={idx}
                 className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.1 * idx }}
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-16 h-16 bg-[#FF5722] rounded-full flex items-center justify-center">
@@ -571,12 +739,18 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Footer */}
-          <div className="mt-16 pt-8 border-t border-[#2a2a2a] text-center">
+          <motion.div
+            className="mt-16 pt-8 border-t border-[#2a2a2a] text-center"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
+          >
             <p className="text-[#b0b0b0] mb-2">
               © 2025 IDEAL Engenharia e Assessoria. Todos os direitos reservados.
             </p>
@@ -588,9 +762,10 @@ export default function Home() {
             >
               www.idealsst.com
             </a>
-          </div>
+          </motion.div>
         </div>
-      </section>
-    </div>
+      </AnimatedSection>
+    </AnimatedPage>
   );
 }
+
