@@ -19,11 +19,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Quem Somos", href: "#quem-somos", id: "1" },
-  { label: "Visão & Missão", href: "#visao-missao", id: "2" },
-  { label: "Cases", href: "#cases", id: "3" },
   { label: "Serviços", href: "#servicos", id: "4" },
-  { label: "Etapas", href: "#etapas", id: "5" },
-  { label: "Atuação", href: "#atuacao", id: "6" },
   { label: "Estados", href: "#estados", id: "7" },
   { label: "Parceiros", href: "#parceiros", id: "8" },
   { label: "Espaço Confinado", href: "#espaco-confinado", id: "9" },

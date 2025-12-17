@@ -1,771 +1,635 @@
 "use client";
 
-/**
- * Home Page - IDEAL Landing Page
- * Design: Minimalismo Corporativo Geométrico
- * - 11 seções correspondentes ao sumário do PDF
- * - Animações sutis ao scroll
- * - Layout assimétrico com blocos alternados
- * - Cores: Preto, branco e laranja
- */
-
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import SectionHeader from "@/components/SectionHeader";
-import { Mail, Phone, MapPin, Users, Target, Briefcase } from "lucide-react";
-import { motion } from "framer-motion";
-import React from "react";
+import { Mail, Phone, MapPin, Briefcase, Globe } from "lucide-react";
+import { animate, motion, useInView, useMotionValue } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  FileText,
+  ClipboardCheck,
+  Users,
+  GraduationCap,
+  FolderOpen,
+  Ruler,
+  ShieldCheck,
+  SlidersHorizontal,
+} from "lucide-react";
 
-// Container com fade-in geral da página
 const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
-    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    className="bg-black text-white min-h-screen"
+    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    className="min-h-screen bg-[#050505] text-white"
   >
     {children}
   </motion.div>
 );
 
-// Section com fade-in ao entrar na tela (scroll)
-interface AnimatedSectionProps extends React.HTMLAttributes<HTMLElement> {
-  id?: string;
+function CountUp({
+  to,
+  duration = 1.2,
+  prefix = "",
+  suffix = "",
+  className = "",
+}: {
+  to: number;
+  duration?: number;
+  prefix?: string;
+  suffix?: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const inView = useInView(ref, { once: true, amount: 0.35 });
+  const mv = useMotionValue(0);
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const unsub = mv.on("change", (latest) => setValue(Math.round(latest)));
+    return () => unsub();
+  }, [mv]);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    const controls = animate(mv, to, {
+      duration,
+      ease: [0.22, 1, 0.36, 1],
+    });
+
+    return () => controls.stop();
+  }, [inView, mv, to, duration]);
+
+  return (
+    <span ref={ref} className={className}>
+      {prefix}
+      {value}
+      {suffix}
+    </span>
+  );
 }
 
-const AnimatedSection: React.FC<AnimatedSectionProps> = ({
-  children,
-  className = "",
-  ...rest
-}) => (
+const AnimatedSection: React.FC<
+  React.HTMLAttributes<HTMLElement> & { id?: string }
+> = ({ children, className = "", ...rest }) => (
   <motion.section
     {...rest}
     className={className}
-    initial={{ opacity: 0, y: 32 }}
+    initial={{ opacity: 0, y: 28 }}
     whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    viewport={{ once: true, amount: 0.18 }}
+    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
   >
     {children}
   </motion.section>
 );
 
-// Imagem com fadeInLeft / fadeInRight
-interface FadeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-  direction?: "left" | "right";
-}
-
-const FadeImage: React.FC<FadeImageProps> = ({
-  direction = "left",
+const Title: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
   className = "",
-  ...rest
-}) => {
-  const x = direction === "left" ? -50 : 50;
+}) => (
+  <h2
+    className={[
+      "[font-family:var(--font-title)] uppercase tracking-[0.14em]",
+      "text-[var(--ideal-orange)]",
+      className,
+    ].join(" ")}
+  >
+    {children}
+  </h2>
+);
 
-  return (
-    <motion.img
-      initial={{ opacity: 0, x }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-      {...rest}
-    />
-  );
-};
+const Body: React.FC<{ children: React.ReactNode; className?: string }> = ({
+  children,
+  className = "",
+}) => (
+  <p className={["[font-family:var(--font-body)] text-white/70", className].join(" ")}>
+    {children}
+  </p>
+);
 
 export default function Home() {
   return (
     <AnimatedPage>
       <Navigation />
-
-      {/* Hero Section */}
       <Hero />
 
-      {/* Section 1: Quem Somos */}
+      {/* 1) QUEM SOMOS + Missão/Visão/Valores (mesma ideia do PDF) */}
       <AnimatedSection
         id="quem-somos"
-        className="bg-black border-b border-[#2a2a2a] pt-28 pb-16 md:py-20 scroll-mt-24 md:scroll-mt-32"
+        className="relative overflow-hidden pt-24 md:pt-28 pb-18"
       >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="1" title="Quem Somos" />
+        <div className="absolute inset-0">
+          <img
+            src="/images/logo-bg.png"
+            alt="Imagem institucional"
+            className="w-full h-full object-cover opacity-35"
+          />
+          {/* overlays para contraste e suavidade */}
+          <div className="absolute inset-0 bg-black/65" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/60 to-black/85" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/45" />
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-30">
-            {/* Left Content */}
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                A IDEAL é uma empresa que presta serviços de Assessoria em Engenharia,
-                Segurança do Trabalho, Saúde Ocupacional e Meio Ambiente.
-              </p>
+        <div className="relative max-w-7xl mx-auto px-6">
+          {/* Título (HK Modular) */}
+          <h2
+            className="
+        [font-family:var(--font-title)]
+        uppercase tracking-[0.14em]
+        text-[var(--ideal-orange)]
+        text-3xl md:text-4xl
+      "
+          >
+            Quem Somos
+          </h2>
 
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                A qualidade do nosso serviço e a preocupação genuína com o cliente são
-                o diferencial de nossa marca. Oferecemos aos clientes uma solução
-                customizada para garantir a minimização de passivos trabalhistas,
-                atendimento aos requisitos legais e promover a saúde e a segurança de
-                todos.
-              </p>
+          {/* Texto (Jura) */}
+          <div className="mt-8 max-w-4xl space-y-6">
+            <p className="[font-family:var(--font-body)] text-white/75 text-base md:text-lg leading-relaxed">
+              A IDEAL é uma empresa que presta serviços de Assessoria em Engenharia,
+              Segurança do Trabalho, Saúde Ocupacional e Meio Ambiente.
+            </p>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-6 pt-8">
-                <motion.div
-                  className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.6, delay: 0.15 }}
-                >
-                  <div className="text-3xl font-bold text-[#FF5722] mb-2">15+</div>
-                  <p className="text-[#b0b0b0]">Anos de Experiência</p>
-                </motion.div>
-                <motion.div
-                  className="p-6 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-colors"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.6, delay: 0.25 }}
-                >
-                  <div className="text-3xl font-bold text-[#FF5722] mb-2">10+</div>
-                  <p className="text-[#b0b0b0]">Estados Atendidos</p>
-                </motion.div>
+            <p className="[font-family:var(--font-body)] text-white/75 text-base md:text-lg leading-relaxed">
+              A qualidade do nosso serviço e a preocupação genuína com o cliente são o
+              diferencial de nossa marca. Oferecemos soluções customizadas para
+              minimizar passivos, atender requisitos legais e promover saúde e segurança.
+            </p>
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <div className="w-full max-w-9xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 place-items-stretch">
+                {[
+                  {
+                    k: "Missão",
+                    v: "Garantir segurança e qualidade nos ambientes de trabalho por meio de soluções técnicas em Engenharia, SST e Meio Ambiente.",
+                  },
+                  {
+                    k: "Visão",
+                    v: "Ser referência nacional em qualidade e inovação em SST, promovendo ambientes seguros, sustentáveis e humanizados.",
+                  },
+                  {
+                    k: "Valores",
+                    v: "Comprometimento com a qualidade, ética, segurança e valorização das pessoas em tudo o que fazemos.",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.k}
+                    className="
+      bg-[var(--ideal-orange)]
+      text-white
+      rounded-xl
+      p-6
+      shadow-[0_18px_40px_rgba(0,0,0,0.35)]
+      relative overflow-hidden
+      flex items-center justify-center
+      text-center
+      min-h-[220px]
+    "
+                  >
+                    {/* brilho interno suave */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-transparent to-black/10" />
+
+                    <div className="relative flex flex-col items-center justify-center">
+                      <div
+                        className="
+          [font-family:var(--font-title)]
+          uppercase
+          tracking-[0.16em]
+          text-lg md:text-xl
+          font-bold
+          mb-4
+        "
+                      >
+                        {item.k}
+                      </div>
+
+                      <p className="
+        [font-family:var(--font-body)]
+        text-white/95
+        text-sm md:text-base
+        leading-relaxed
+      ">
+                        {item.v}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </motion.div>
+            </div>
+          </div>
 
-            {/* Right Image */}
+          {/* respiro inferior */}
+          <div className="h-10 md:h-14" />
+        </div>
+      </AnimatedSection>
+
+
+      <AnimatedSection id="contato-diretoria" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#ff3b1f_0%,#ff3b1f_35%,#111_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_50%_35%,rgba(0,0,0,.18)_0%,rgba(0,0,0,0)_60%)]" />
+
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+        
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {[
+              {
+                name: "Pedro Henrique",
+                role: "Sócio Diretor",
+                photo: "/images/bg-pedro.png",
+                bio: `Com mais de quinze anos de experiência em Saúde, Segurança do Trabalho, Meio Ambiente e Qualidade...`,
+              },
+              {
+                name: "Guilherme Caldas",
+                role: "Sócio Diretor",
+                photo: "/images/bg-guilherme.png",
+                bio: `Engenheiro Mecânico (UFU) e pós-graduado em Engenharia de Segurança do Trabalho...`,
+              },
+            ].map((d) => (
+              <div key={d.name} className="bg-black/55 border border-black/30">
+                <div className="p-8">
+                  <div className="flex flex-col items-center text-center">
+                    <img
+                      src={d.photo}
+                      alt={d.name}
+                      className="w-44 h-44 object-cover rounded-md"
+                    />
+                    <div className="mt-5 [font-family:var(--font-title)] text-white uppercase tracking-[0.12em]">
+                      {d.name}
+                    </div>
+                    <div className="[font-family:var(--font-body)] text-white/70 text-sm">
+                      {d.role}
+                    </div>
+                  </div>
+
+                  <p className="mt-6 [font-family:var(--font-body)] text-white/70 leading-relaxed text-sm md:text-base">
+                    {d.bio}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </AnimatedSection>
+
+      {/* 3) 11 ESTADOS +200 CLIENTES (igual destaque do PDF) */}
+      <AnimatedSection id="estados" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-black" />
+
+
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]">
+                <CountUp
+                  to={11}
+                  duration={1.1}
+                  className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]"
+                />
+              </div>
+
+              <div className="[font-family:var(--font-title)] uppercase tracking-[0.18em] text-white text-3xl md:text-4xl mt-2">
+                Estados
+              </div>
+
+              <div className="mt-10">
+                <CountUp
+                  to={200}
+                  duration={1.4}
+                  prefix="+ "
+                  className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]"
+                />
+              </div>
+
+              <div className="[font-family:var(--font-title)] uppercase tracking-[0.18em] text-white text-3xl md:text-4xl mt-2">
+                Clientes
+              </div>
+            </div>
+
+            {/* mapa genérico */}
             <div className="relative">
-              <FadeImage
-                src="/images/team-section.jpg"
-                alt="Time IDEAL"
-                direction="right"
-                className="w-full rounded-sm shadow-2xl"
+              <img
+                src="/images/mapa-brasil.png"
+                alt="Mapa do Brasil"
+                className="w-full max-h-[520px] object-contain"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-40 rounded-sm" />
+              <div className="absolute inset-0 bg-[radial-gradient(70%_70%_at_50%_50%,rgba(255,59,31,0.26)_0%,rgba(255,59,31,0.16)_40%,rgba(0,0,0,0)_75%)]" />
+
+              <div className="absolute inset-0 bg-gradient-to-l from-black/10 via-black/20 to-black/60" />
             </div>
           </div>
         </div>
       </AnimatedSection>
 
+      {/* 4) NOSSOS PRINCIPAIS SERVIÇOS (layout lista com barra laranja lateral) */}
+      <AnimatedSection id="servicos" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#070707]" />
+        <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_85%_35%,rgba(255,59,31,.16)_0%,rgba(0,0,0,0)_70%)]" />
 
-      {/* Section 2: Visão & Missão */}
-      <AnimatedSection
-        id="visao-missao"
-        className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="2" title="Visão & Missão" />
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <Title className="text-3xl md:text-4xl">Nossos Principais Serviços</Title>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Visão */}
-            <motion.div
-              className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7 }}
-            >
-              <h3 className="text-3xl font-bold text-[#FF5722] mb-4 uppercase">
-                Visão
-              </h3>
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                Obtenção de um ambiente de produção seguro, humanizado, com
-                capacitação de qualidade, cumprimento à legislação pertinente e
-                favorável à produção, garantindo o bem-estar de todos.
-              </p>
-            </motion.div>
-
-            {/* Missão */}
-            <motion.div
-              className="p-8 bg-black border-l-4 border-[#FF5722] rounded-sm hover:shadow-lg hover:shadow-[#FF5722]/20 transition-all"
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-            >
-              <h3 className="text-3xl font-bold text-[#FF5722] mb-4 uppercase">
-                Missão
-              </h3>
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                Ser referência no Brasil nas áreas de Segurança do Trabalho,
-                Saúde e Meio Ambiente, entregando excelência em qualidade para
-                nossos clientes.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* Image */}
-          <div className="mt-12">
-            <FadeImage
-              src="/images/innovation-tech.jpg"
-              alt="Inovação e Tecnologia"
-              direction="left"
-              className="w-full rounded-sm shadow-2xl"
-            />
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Section 3: Cases de Negócios */}
-      <AnimatedSection
-        id="cases"
-        className="py-20 bg-black border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="3" title="Cases de Negócios" />
-
-          <motion.p
-            className="text-lg text-[#b0b0b0] mb-12 leading-relaxed max-w-3xl"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            Somos referência nacional no quesito de desenvolvimento de assessorias
-            customizadas, procedimentos internos, laudos, inventários de
-            segurança, melhorias contínuas de processos, projetos e terceirização
-            de mão de obra com crivo de avaliação e seleção de alta performance.
-          </motion.p>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Case 1: Nexa Resources */}
-            <motion.div
-              className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center">
-                  <Briefcase className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">Nexa Resources</h3>
-              </div>
-              <ul className="space-y-2 text-[#b0b0b0]">
-                <li>✓ Revisões internas de procedimentos operacionais</li>
-                <li>✓ Revisão de Programas de Segurança</li>
-                <li>✓ Revisão de Formulários e Anexos</li>
-                <li>✓ Criação de Novos Anexos</li>
-                <li>✓ Capacitação do Time Nexa</li>
-              </ul>
-            </motion.div>
-
-            {/* Case 2: Laticínio Canto de Minas */}
-            <motion.div
-              className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center">
-                  <Target className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white">
-                  Laticínio Canto de Minas
-                </h3>
-              </div>
-              <p className="text-[#b0b0b0] mb-4">
-                Realização de Consultoria em SST e cultura de segurança do
-                trabalho.
-              </p>
-              <ul className="space-y-2 text-[#b0b0b0]">
-                <li>✓ Diagnóstico técnico e cultural em 3 unidades</li>
-                <li>✓ Entrevistas e observações com 100+ colaboradores</li>
-                <li>✓ Relatório detalhado de vulnerabilidades</li>
-                <li>✓ Plano de trabalho priorizado</li>
-                <li>✓ Ações de curto e longo prazo</li>
-              </ul>
-            </motion.div>
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Section 4: Nossos Serviços */}
-      <AnimatedSection
-        id="servicos"
-        className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="4" title="Nossos Serviços" />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 title: "Inventários",
-                desc: "Inventários completos com ficha técnica padrão IDEAL, incluindo Espaço Confinado, Máquinas e Equipamentos, Içamentos e Trabalho em Altura.",
+                desc: "Inventários completos com ficha técnica padrão IDEAL e ART. Espaço Confinado, Máquinas, Içamentos e Trabalho em Altura.",
+                icon: FileText,
               },
               {
                 title: "Procedimentos",
-                desc: "Procedimentos Operacionais de Segurança com qualidade e padrão IDEAL, com todos os respectivos anexos linkados.",
+                desc: "Procedimentos Operacionais de Segurança com padrão IDEAL e anexos linkados.",
+                icon: ClipboardCheck,
               },
               {
                 title: "Terceirização de Mão de Obra",
-                desc: "Seleção de profissionais qualificados com triagem rigorosa, avaliações técnicas e psicológicas.",
+                desc: "Triagem forte, avaliações técnicas e psicológicas para entregar o melhor perfil ao seu time.",
+                icon: Users,
               },
               {
                 title: "Treinamentos",
-                desc: "Instrutores competentes e qualificados com certificações nacionais e internacionais.",
+                desc: "Instrutores qualificados com certificações nacionais e internacionais.",
+                icon: GraduationCap,
               },
               {
                 title: "Documentações de SSMA",
-                desc: "Laudos (LTCAT, LI, LP), PGR, PCMSO, PCA, PPR, PGRSS, análises ergonômicas e muito mais.",
+                desc: "Laudos, programas e avaliações ambientais (ruído, vibração, poeira, calor & frio) com padrão IDEAL.",
+                icon: FolderOpen,
               },
               {
                 title: "Projetos",
-                desc: "Projetos qualificados com garantia do CREA e ART. Linhas de vida, proteções coletivas, plano de rigging.",
+                desc: "Projetos e laudos com CREA/ART: linhas de vida, proteções coletivas, plano de rigging e mais.",
+                icon: Ruler,
               },
               {
                 title: "Gestão e-Social",
-                desc: "Gestão completa de SST incluindo elaboração de documentos e envio de eventos ao eSocial.",
+                desc: "Gestão completa de SST e envio dos eventos ao eSocial com comprovantes mensais.",
+                icon: ShieldCheck,
               },
               {
                 title: "Assessorias Customizadas",
-                desc: "Assessorias personalizadas com análises de riscos, diagnósticos, auditorias e investigação de acidentes.",
+                desc: "Análises de risco, diagnósticos, auditorias, investigação de acidentes, licenciamento ambiental e mais.",
+                icon: SlidersHorizontal,
               },
-            ].map((service, idx) => (
-              <motion.div
-                key={idx}
-                className="p-6 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:shadow-lg hover:shadow-[#FF5722]/10 transition-all group"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: 0.05 * idx }}
-              >
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <span className="text-white font-bold text-lg">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-[#b0b0b0]">{service.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+            ].map((s) => {
+              const Icon = s.icon;
 
-      {/* Section 5: Etapas de Trabalho */}
-      <AnimatedSection
-        id="etapas"
-        className="py-20 bg-black border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="5" title="Etapas de Trabalho" />
+              return (
+                <div
+                  key={s.title}
+                  className="
+          group
+          bg-[#0b0b0b]
+          border border-white/10
+          rounded-2xl
+          p-6
+          transition-all
+          duration-300
+          hover:border-[var(--ideal-orange)]
+          hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
+        "
+                >
+                  {/* Ícone */}
+                  <div
+                    className="
+            w-12 h-12
+            rounded-xl
+            bg-white/5
+            flex items-center justify-center
+            mb-4
+            transition-colors
+            group-hover:bg-[var(--ideal-orange)]
+          "
+                  >
+                    <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                  </div>
 
-          <div className="space-y-8">
-            {[
-              {
-                step: "1",
-                title: "Contato Estratégico",
-                desc: "Antes de iniciarmos qualquer trabalho, realizamos um contato estratégico com todos os nossos clientes, visando entender a real necessidade e objetivo, para que possamos entregar com o máximo de precisão e eficiência.",
-              },
-              {
-                step: "2",
-                title: "Desenvolvimento Estratégico",
-                desc: "Desenvolvimento estratégico com a qualidade e proficiência IDEAL. Buscamos desenvolver nossos trabalhos de forma que nossas entregas sejam completas, eficientes e ricas de informações, além de um layout perfeito.",
-              },
-              {
-                step: "3",
-                title: "Entrega com Qualidade",
-                desc: "Garantimos todas as entregas as que nos foram concedidas com pontualidade, qualidade e responsabilidade.",
-              },
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                className="relative flex gap-8 pb-8 border-l-4 border-[#FF5722] pl-8 last:border-l-0 last:pb-0"
-                initial={{ opacity: 0, x: -32 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: 0.1 * idx }}
-              >
-                {/* Step Circle */}
-                <div className="absolute -left-6 top-0 w-12 h-12 bg-[#FF5722] rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {item.step}
-                </div>
-
-                {/* Content */}
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {item.title}
+                  {/* Título */}
+                  <h3
+                    className="
+                          [font-family:var(--font-title)]
+                          uppercase
+                          tracking-[0.14em]
+                          text-white
+                          text-sm
+                          mb-2
+                        "
+                  >
+                    {s.title}
                   </h3>
-                  <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                    {item.desc}
+
+                  {/* Descrição */}
+                  <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
+                    {s.desc}
                   </p>
                 </div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Section 6: Atuação pelo Brasil */}
-      <AnimatedSection
-        id="atuacao"
-        className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="6" title="Atuação pelo Brasil" />
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[
-              "Nexa Resources - MG",
-              "Aura Minerals - TO",
-              "Atvos - MS",
-              "Prysmian - AM",
-              "Petrobras - RJ",
-              "Prysmian - PR",
-              "Prysmian - MS",
-              "Syngenta - MG",
-              "Aura Minerals - RN",
-            ].map((client, idx) => (
-              <motion.div
-                key={idx}
-                className="p-4 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:bg-[#FF5722]/5 transition-all text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.05 * idx }}
-              >
-                <p className="text-[#b0b0b0] font-medium">{client}</p>
-              </motion.div>
-            ))}
-          </div>
+      {/* 5) ESPAÇO CONFINADO (split foto + texto com gradiente) */}
+      <AnimatedSection id="espaco-confinado" className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="/images/bg-espaco-confinado.png"
+            alt="Espaço Confinado"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* overlays para contraste e suavidade */}
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/35" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/70" />
         </div>
-      </AnimatedSection>
 
-      {/* Section 7: Estados em que Atuamos */}
-      <AnimatedSection
-        id="estados"
-        className="py-20 bg-black border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="7" title="Estados em que Atuamos" />
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[620px]">
+            {/* Coluna esquerda (pode ficar “vazia” para respeitar o layout do PDF) */}
+            <div className="hidden lg:block" />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {[
-              "Minas Gerais",
-              "Goiás",
-              "Tocantins",
-              "Mato Grosso",
-              "Mato Grosso do Sul",
-              "Rio Grande do Norte",
-              "Paraná",
-              "Rio de Janeiro",
-              "São Paulo",
-              "Amazonas",
-            ].map((state, idx) => (
-              <motion.div
-                key={idx}
-                className="p-4 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:bg-[#FF5722]/5 transition-all text-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.05 * idx }}
-              >
-                <p className="text-[#b0b0b0] font-medium">{state}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+            {/* Texto */}
+            <div className="relative">
+              {/* bloco com fundo translúcido para leitura premium */}
+              <div className="bg-black/35 border border-white/10 rounded-2xl p-8 md:p-10 backdrop-blur-[2px]">
+                <h3
+                  className="
+              [font-family:var(--font-title)]
+              uppercase
+              text-center
+              tracking-[0.12em]
+              text-[var(--ideal-orange)]
+              font-extrabold
+              text-2xl sm:text-3xl md:text-4xl
+              leading-tight
+            "
+                >
+                  O melhor inventário de espaço confinado do Brasil!
+                </h3>
 
-      {/* Section 8: Alguns Parceiros */}
-      <AnimatedSection
-        id="parceiros"
-        className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="8" title="Alguns Parceiros" />
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {[
-              "Odebrecht Ambiental",
-              "BRK Ambiental",
-              "KWS Sementes",
-              "ADM do Brasil",
-              "LongPing",
-              "Monsanto",
-              "Biosev",
-              "Nidera/Syngenta",
-              "CMOC",
-            ].map((partner, idx) => (
-              <motion.div
-                key={idx}
-                className="p-6 bg-black border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] hover:shadow-lg hover:shadow-[#FF5722]/10 transition-all flex items-center justify-center min-h-24"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.5, delay: 0.05 * idx }}
-              >
-                <p className="text-[#b0b0b0] font-medium text-center">
-                  {partner}
+                <p className="[font-family:var(--font-body)] text-white/75 mt-8 leading-relaxed text-base md:text-lg">
+                  Nossos inventários são elaborados de forma completa e padronizada,
+                  acompanhados de Ficha Técnica Padrão IDEAL e ART emitida por profissional habilitado.
                 </p>
-              </motion.div>
-            ))}
+
+                <p className="[font-family:var(--font-body)] text-white/75 mt-4 leading-relaxed text-base md:text-lg">
+                  Asseguramos mapeamento preciso dos riscos, conformidade com normas e implementação de medidas preventivas eficazes.
+                </p>
+
+                <p className="[font-family:var(--font-body)] text-white/75 mt-4 leading-relaxed text-base md:text-lg">
+                  Nosso objetivo é oferecer diagnósticos técnicos confiáveis que contribuam para segurança, eficiência operacional e atendimento legal.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Section 9: Espaço Confinado */}
-      <AnimatedSection
-        id="espaco-confinado"
-        className="py-20 bg-black border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="9" title="Espaço Confinado" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Content */}
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7 }}
-            >
-              <h3 className="text-3xl font-bold text-[#FF5722] uppercase">
-                O Melhor Inventário de Espaço Confinado do Brasil!
-              </h3>
+      {/* 6) PARCEIROS (split preto / branco com logos) */}
+      <AnimatedSection id="parceiros" className="relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          {/* esquerda preta */}
+          <div className="relative bg-black px-6 sm:px-10 md:px-14 py-16 md:py-20">
+            <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_30%_25%,rgba(255,59,31,.14)_0%,rgba(0,0,0,0)_70%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/75" />
 
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                Nossos inventários são elaborados de forma completa e
-                padronizada, seguindo os mais altos critérios técnicos da IDEAL
-                SST. Os documentos são acompanhados de uma Ficha Técnica Padrão
-                IDEAL, que reúne informações detalhadas e unitárias de todos os
-                ambientes, além da respectiva ART (Anotação de Responsabilidade
-                Técnica) emitida por profissional habilitado.
+            <div className="relative max-w-xl">
+              {/* detalhe laranja */}
+              <div className="h-1 w-16 bg-[var(--ideal-orange)] rounded-full mb-6" />
+
+              <h2
+                className="
+            [font-family:var(--font-title)]
+            uppercase tracking-[0.14em]
+            text-[var(--ideal-orange)]
+            text-3xl sm:text-4xl md:text-5xl
+            leading-tight
+          "
+              >
+                Alguns Parceiros
+              </h2>
+
+              <p className="[font-family:var(--font-body)] text-white/78 mt-7 text-base sm:text-lg md:text-xl leading-relaxed">
+                Somos referência nacional no desenvolvimento de assessorias customizadas,
+                procedimentos internos, laudos, inventários de segurança, melhorias contínuas,
+                projetos e terceirização com alto critério de seleção.
               </p>
 
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                Realizamos Inventários de Espaço Confinado, assegurando o
-                mapeamento preciso dos riscos, a conformidade com as normas
-                regulamentadoras e a implementação de medidas preventivas
-                eficazes.
+              <p className="[font-family:var(--font-body)] text-white/70 mt-5 text-sm sm:text-base md:text-lg">
+                Conheça alguns dos nossos parceiros:
               </p>
+            </div>
+          </div>
 
-              <p className="text-lg text-[#b0b0b0] leading-relaxed">
-                Nosso objetivo é oferecer diagnósticos técnicos confiáveis que
-                contribuam para a segurança dos colaboradores, a eficiência
-                operacional e o cumprimento das exigências legais em todos os
-                ambientes de trabalho.
-              </p>
-            </motion.div>
+          {/* direita branca */}
+          <div className="relative bg-white px-6 sm:px-10 md:px-14 py-16 md:py-20 rounded-xl">
+            <div className="absolute inset-0 bg-gradient-to-l from-white via-white to-white/90 rounded-xl" />
 
-            {/* Image */}
-            <div>
-              <FadeImage
-                src="/images/workplace-safety.jpg"
-                alt="Espaço Confinado"
-                direction="right"
-                className="w-full rounded-sm shadow-2xl"
+            <div className="relative flex items-center justify-center">
+              <img
+                src="/images/parceiros.png"
+                alt="Logos de parceiros"
+                className="
+            w-full
+            max-w-[760px]
+            h-[320px] sm:h-[420px] md:h-[520px]
+            object-contain
+          "
               />
             </div>
           </div>
         </div>
       </AnimatedSection>
 
-      {/* Section 10: Contato Comercial */}
-      <AnimatedSection
-        id="contato-comercial"
-        className="py-20 bg-[#1a1a1a] border-b border-[#2a2a2a]"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="10" title="Contato Comercial" />
-
-          <motion.div
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <p className="text-lg text-[#b0b0b0] mb-8">
-              Entre em contato conosco e conheça o nosso trabalho.
-            </p>
-
-            <div className="space-y-6">
-              <motion.div
-                className="flex items-start gap-4"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-[#b0b0b0] text-sm">Email</p>
-                  <a
-                    href="mailto:contato@idealsst.com"
-                    className="text-white text-lg font-semibold hover:text-[#FF5722] transition-colors"
-                  >
-                    contato@idealsst.com
-                  </a>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-start gap-4"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: 0.05 }}
-              >
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-[#b0b0b0] text-sm">Telefone</p>
-                  <a
-                    href="tel:+5538999029541"
-                    className="text-white text-lg font-semibold hover:text-[#FF5722] transition-colors"
-                  >
-                    (38) 99902-9541
-                  </a>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-start gap-4"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-[#b0b0b0] text-sm">Endereço</p>
-                  <p className="text-white text-lg font-semibold">
-                    Rua Dr. Wladimir da Silva Neiva, 226
-                    <br />
-                    Paracatu - MG
-                  </p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-start gap-4"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-              >
-                <div className="w-12 h-12 bg-[#FF5722] rounded-sm flex items-center justify-center flex-shrink-0">
-                  <Briefcase className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-[#b0b0b0] text-sm">CNPJ</p>
-                  <p className="text-white text-lg font-semibold">
-                    48.755.949/0001-28
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+      {/* 7) CONTATO COMERCIAL (blocos laranja com ícones) */}
+      <AnimatedSection id="contato-comercial" className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          
+          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-[radial-gradient(55%_70%_at_75%_35%,rgba(255,59,31,.22)_0%,rgba(0,0,0,0)_70%)]" />
         </div>
-      </AnimatedSection>
 
-      {/* Section 11: Contato Diretoria */}
-      <AnimatedSection id="contato-diretoria" className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-6">
-          <SectionHeader number="11" title="Contato Diretoria" />
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <h2 className="[font-family:var(--font-title)] uppercase tracking-[0.16em] text-[var(--ideal-orange)] text-3xl md:text-5xl text-center">
+            Contato Comercial
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <p className="[font-family:var(--font-body)] text-white/70 text-center mt-6">
+            Entre em contato conosco e conheça o nosso trabalho.
+          </p>
+
+          <div className="mt-12 max-w-3xl mx-auto space-y-5">
             {[
               {
-                name: "Guilherme Caldas",
-                title: "Sócio Diretor",
-                phone: "(34) 99917-5772",
-                email: "guilhermecaldas@idealsst.com",
+                icon: <Briefcase className="w-6 h-6 text-white" />,
+                label: "CNPJ",
+                value: "48.755.949/0001-28",
               },
               {
-                name: "Pedro Henrique",
-                title: "Sócio Diretor",
-                phone: "(34) 99836-4577",
-                email: "pedrogomes@idealsst.com",
+                icon: <Phone className="w-6 h-6 text-white" />,
+                label: "Telefone",
+                value: "(38) 99902-9541",
+                href: "tel:+5538999029541",
               },
-            ].map((director, idx) => (
-              <motion.div
-                key={idx}
-                className="p-8 bg-[#1a1a1a] border border-[#2a2a2a] rounded-sm hover:border-[#FF5722] transition-all"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: 0.1 * idx }}
+              {
+                icon: <Mail className="w-6 h-6 text-white" />,
+                label: "Email",
+                value: "contato@idealsst.com",
+                href: "mailto:contato@idealsst.com",
+              },
+              {
+                icon: <Globe className="w-6 h-6 text-white" />,
+                label: "Site",
+                value: "www.idealsst.com",
+                href: "https://www.idealsst.com",
+              },
+              {
+                icon: <MapPin className="w-6 h-6 text-white" />,
+                label: "Matriz",
+                value: "Rua Dr. Wladimir da Silva Neiva, 226, Paracatu - MG.",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-4 bg-black/45 border border-white/10"
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 bg-[#FF5722] rounded-full flex items-center justify-center">
-                    <Users className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white">
-                      {director.name}
-                    </h3>
-                    <p className="text-[#FF5722] font-semibold">
-                      {director.title}
-                    </p>
-                  </div>
+                <div className="w-16 h-16 bg-[var(--ideal-orange)] flex items-center justify-center">
+                  {item.icon}
                 </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 text-[#FF5722]" />
-                    <a
-                      href={`tel:${director.phone.replace(/\D/g, "")}`}
-                      className="text-[#b0b0b0] hover:text-[#FF5722] transition-colors"
-                    >
-                      {director.phone}
-                    </a>
+                <div className="py-4 pr-6">
+                  <div className="[font-family:var(--font-body)] text-white/60 text-xs uppercase tracking-[0.18em]">
+                    {item.label}
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-5 h-5 text-[#FF5722]" />
+                  {item.href ? (
                     <a
-                      href={`mailto:${director.email}`}
-                      className="text-[#b0b0b0] hover:text-[#FF5722] transition-colors"
+                      href={item.href}
+                      target={item.href.startsWith("http") ? "_blank" : undefined}
+                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="[font-family:var(--font-body)] text-white/85 hover:text-[var(--ideal-orange)] transition-colors"
                     >
-                      {director.email}
+                      {item.value}
                     </a>
-                  </div>
+                  ) : (
+                    <div className="[font-family:var(--font-body)] text-white/85">
+                      {item.value}
+                    </div>
+                  )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          {/* Footer */}
-          <motion.div
-            className="mt-16 pt-8 border-t border-[#2a2a2a] text-center"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-          >
-            <p className="text-[#b0b0b0] mb-2">
+          <div className="mt-16 pt-8 border-t border-white/10 text-center">
+            <p className="[font-family:var(--font-body)] text-white/55">
               © 2025 IDEAL Engenharia e Assessoria. Todos os direitos reservados.
             </p>
-            <a
-              href="https://www.idealsst.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#FF5722] hover:text-white transition-colors"
-            >
-              www.idealsst.com
-            </a>
-          </motion.div>
+          </div>
         </div>
       </AnimatedSection>
     </AnimatedPage>
   );
 }
-

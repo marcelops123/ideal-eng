@@ -6,30 +6,43 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
-
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="dark">
+        {/* Fonts + Tokens globais (cores/gradientes) */}
+        <style>{`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Jura:wght@300;400;500;600;700&display=swap');
+
+  :root{
+    --ideal-orange: #ff3b1f;
+    --ideal-orange-2: #ff5a2a;
+    --ideal-bg: #050505;
+    --ideal-muted: rgba(255,255,255,.72);
+    --ideal-soft: rgba(255,255,255,.55);
+
+    /* TÍTULOS AGORA EM ROBOTO */
+    --font-title: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+
+    /* TEXTOS CONTINUAM EM JURA */
+    --font-body: "Jura", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  html, body {
+    background: var(--ideal-bg);
+  }
+`}</style>
+
         <TooltipProvider>
           <Toaster />
           <Router />
