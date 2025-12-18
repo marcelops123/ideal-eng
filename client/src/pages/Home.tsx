@@ -2,7 +2,7 @@
 
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import { Mail, Phone, MapPin, Briefcase, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Briefcase, Globe, MessageCircle } from "lucide-react";
 import { animate, motion, useInView, useMotionValue } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
 } from "lucide-react";
+import { title } from "process";
 
 const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -26,6 +27,54 @@ const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     {children}
   </motion.div>
 );
+
+const bgFadeZoom = {
+  hidden: {
+    opacity: 0,
+    scale: 1.08,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1.2,
+      ease: "easeOut",
+    },
+  },
+};
+
+
+const fadeInRight = {
+  hidden: {
+    opacity: 0,
+    x: 40,
+  },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.30,
+      duration: 1.2,
+      ease: "easeOut",
+    },
+  }),
+};
+
+const fadeInUp = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.25,
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  }),
+};
 
 function CountUp({
   to,
@@ -175,20 +224,25 @@ export default function Home() {
                     k: "Valores",
                     v: "Comprometimento com a qualidade, ética, segurança e valorização das pessoas em tudo o que fazemos.",
                   },
-                ].map((item) => (
-                  <div
+                ].map((item, index) => (
+                  <motion.div
                     key={item.k}
+                    custom={index}
+                    variants={fadeInRight}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-80px" }}
                     className="
-      bg-[var(--ideal-orange)]
-      text-white
-      rounded-xl
-      p-6
-      shadow-[0_18px_40px_rgba(0,0,0,0.35)]
-      relative overflow-hidden
-      flex items-center justify-center
-      text-center
-      min-h-[220px]
-    "
+        bg-[var(--ideal-orange-2)]
+        text-white
+        rounded-xl
+        p-6
+        shadow-[0_18px_40px_rgba(0,0,0,0.35)]
+        relative overflow-hidden
+        flex items-center justify-center
+        text-center
+        min-h-[220px]
+      "
                   >
                     {/* brilho interno suave */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-transparent to-black/10" />
@@ -196,27 +250,29 @@ export default function Home() {
                     <div className="relative flex flex-col items-center justify-center">
                       <div
                         className="
-          [font-family:var(--font-title)]
-          uppercase
-          tracking-[0.16em]
-          text-lg md:text-xl
-          font-bold
-          mb-4
-        "
+            [font-family:var(--font-title)]
+            uppercase
+            tracking-[0.16em]
+            text-lg md:text-xl
+            font-bold
+            mb-4
+          "
                       >
                         {item.k}
                       </div>
 
-                      <p className="
-        [font-family:var(--font-body)]
-        text-white/95
-        text-sm md:text-base
-        leading-relaxed
-      ">
+                      <p
+                        className="
+            [font-family:var(--font-body)]
+            text-white/95
+            text-sm md:text-base
+            leading-relaxed
+          "
+                      >
                         {item.v}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -233,7 +289,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_50%_35%,rgba(0,0,0,.18)_0%,rgba(0,0,0,0)_60%)]" />
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
-        
+
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
             {[
               {
@@ -248,8 +304,16 @@ export default function Home() {
                 photo: "/images/bg-guilherme.png",
                 bio: `Engenheiro Mecânico (UFU) e pós-graduado em Engenharia de Segurança do Trabalho...`,
               },
-            ].map((d) => (
-              <div key={d.name} className="bg-black/55 border border-black/30">
+            ].map((d, index) => (
+              <motion.div
+                key={d.name}
+                custom={index}
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-80px" }}
+                className="bg-black/55 border border-black/30"
+              >
                 <div className="p-8">
                   <div className="flex flex-col items-center text-center">
                     <img
@@ -257,9 +321,11 @@ export default function Home() {
                       alt={d.name}
                       className="w-44 h-44 object-cover rounded-md"
                     />
+
                     <div className="mt-5 [font-family:var(--font-title)] text-white uppercase tracking-[0.12em]">
                       {d.name}
                     </div>
+
                     <div className="[font-family:var(--font-body)] text-white/70 text-sm">
                       {d.role}
                     </div>
@@ -269,7 +335,7 @@ export default function Home() {
                     {d.bio}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -286,19 +352,19 @@ export default function Home() {
               <div className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]">
                 <CountUp
                   to={11}
-                  duration={1.1}
+                  duration={2.5}
                   className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]"
                 />
               </div>
 
-              <div className="[font-family:var(--font-title)] uppercase tracking-[0.18em] text-white text-3xl md:text-4xl mt-2">
+              <div className="[font-family:var(--font-title)] font-weight-bold uppercase tracking-[0.18em] text-white text-3xl md:text-4xl mt-2">
                 Estados
               </div>
 
               <div className="mt-10">
                 <CountUp
                   to={200}
-                  duration={1.4}
+                  duration={3.0}
                   prefix="+ "
                   className="[font-family:var(--font-title)] text-white text-6xl md:text-7xl tracking-[0.08em]"
                 />
@@ -330,7 +396,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_85%_35%,rgba(255,59,31,.16)_0%,rgba(0,0,0,0)_70%)]" />
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
-          <Title className="text-3xl md:text-4xl">Nossos Principais Serviços</Title>
+          <Title className="text-3xl md:text-4xl">
+            Nossos Principais Serviços
+          </Title>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -374,86 +442,89 @@ export default function Home() {
                 desc: "Análises de risco, diagnósticos, auditorias, investigação de acidentes, licenciamento ambiental e mais.",
                 icon: SlidersHorizontal,
               },
-            ].map((s) => {
+            ].map((s, index, arr) => {
               const Icon = s.icon;
 
               return (
-                <div
-                  key={s.title}
-                  className="
-          group
-          bg-[#0b0b0b]
-          border border-white/10
-          rounded-2xl
-          p-6
-          transition-all
-          duration-300
-          hover:border-[var(--ideal-orange)]
-          hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
-        "
-                >
-                  {/* Ícone */}
+                <React.Fragment key={s.title}>
+                  {/* Card real */}
                   <div
                     className="
-            w-12 h-12
-            rounded-xl
-            bg-white/5
-            flex items-center justify-center
-            mb-4
-            transition-colors
-            group-hover:bg-[var(--ideal-orange)]
-          "
+                group
+                bg-[#0b0b0b]
+                border border-white/10
+                rounded-2xl
+                p-6
+                transition-all
+                duration-300
+                hover:border-[var(--ideal-orange)]
+                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
+              "
                   >
-                    <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                    <div
+                      className="
+                  w-12 h-12
+                  rounded-xl
+                  bg-white/5
+                  flex items-center justify-center
+                  mb-4
+                  transition-colors
+                  group-hover:bg-[var(--ideal-orange)]
+                "
+                    >
+                      <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                    </div>
+
+                    <h3 className="[font-family:var(--font-title)] uppercase tracking-[0.14em] text-white text-sm mb-2">
+                      {s.title}
+                    </h3>
+
+                    <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
+                      {s.desc}
+                    </p>
                   </div>
 
-                  {/* Título */}
-                  <h3
-                    className="
-                          [font-family:var(--font-title)]
-                          uppercase
-                          tracking-[0.14em]
-                          text-white
-                          text-sm
-                          mb-2
-                        "
-                  >
-                    {s.title}
-                  </h3>
-
-                  {/* Descrição */}
-                  <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
-                    {s.desc}
-                  </p>
-                </div>
+                  {/* Placeholder invisível NO MEIO (entre 7 e 8) */}
+                  {index === arr.length - 2 && (
+                    <div
+                      className="hidden lg:block pointer-events-none"
+                      aria-hidden="true"
+                    />
+                  )}
+                </React.Fragment>
               );
             })}
           </div>
         </div>
       </AnimatedSection>
+ 
 
       {/* 5) ESPAÇO CONFINADO (split foto + texto com gradiente) */}
       <AnimatedSection id="espaco-confinado" className="relative overflow-hidden">
-        <div className="absolute inset-0">
+        {/* Background animado */}
+        <motion.div
+          className="absolute inset-0"
+          variants={bgFadeZoom}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           <img
             src="/images/bg-espaco-confinado.png"
             alt="Espaço Confinado"
             className="w-full h-full object-cover object-center"
           />
-          {/* overlays para contraste e suavidade */}
-          <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/55 to-black/35" />
+
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/55 to-black/35" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/70" />
-        </div>
+        </motion.div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[620px]">
-            {/* Coluna esquerda (pode ficar “vazia” para respeitar o layout do PDF) */}
             <div className="hidden lg:block" />
 
             {/* Texto */}
             <div className="relative">
-              {/* bloco com fundo translúcido para leitura premium */}
               <div className="bg-black/35 border border-white/10 rounded-2xl p-8 md:p-10 backdrop-blur-[2px]">
                 <h3
                   className="
@@ -493,7 +564,14 @@ export default function Home() {
       <AnimatedSection id="parceiros" className="relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* esquerda preta */}
-          <div className="relative bg-black px-6 sm:px-10 md:px-14 py-16 md:py-20">
+          <div className="
+  relative
+  bg-black
+  px-6 sm:px-10 md:px-14
+  py-16 md:py-20
+  flex
+  items-center
+">
             <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_30%_25%,rgba(255,59,31,.14)_0%,rgba(0,0,0,0)_70%)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/75" />
 
@@ -548,7 +626,7 @@ export default function Home() {
       {/* 7) CONTATO COMERCIAL (blocos laranja com ícones) */}
       <AnimatedSection id="contato-comercial" className="relative overflow-hidden">
         <div className="absolute inset-0">
-          
+
           <div className="absolute inset-0 bg-black/70" />
           <div className="absolute inset-0 bg-[radial-gradient(55%_70%_at_75%_35%,rgba(255,59,31,.22)_0%,rgba(0,0,0,0)_70%)]" />
         </div>
@@ -565,11 +643,6 @@ export default function Home() {
           <div className="mt-12 max-w-3xl mx-auto space-y-5">
             {[
               {
-                icon: <Briefcase className="w-6 h-6 text-white" />,
-                label: "CNPJ",
-                value: "48.755.949/0001-28",
-              },
-              {
                 icon: <Phone className="w-6 h-6 text-white" />,
                 label: "Telefone",
                 value: "(38) 99902-9541",
@@ -580,12 +653,6 @@ export default function Home() {
                 label: "Email",
                 value: "contato@idealsst.com",
                 href: "mailto:contato@idealsst.com",
-              },
-              {
-                icon: <Globe className="w-6 h-6 text-white" />,
-                label: "Site",
-                value: "www.idealsst.com",
-                href: "https://www.idealsst.com",
               },
               {
                 icon: <MapPin className="w-6 h-6 text-white" />,
@@ -625,11 +692,39 @@ export default function Home() {
 
           <div className="mt-16 pt-8 border-t border-white/10 text-center">
             <p className="[font-family:var(--font-body)] text-white/55">
-              © 2025 IDEAL Engenharia e Assessoria. Todos os direitos reservados.
+              © 2026 IDEAL Engenharia e Assessoria. Todos os direitos reservados.
             </p>
           </div>
         </div>
       </AnimatedSection>
+      <motion.a
+        href="https://wa.me/5538999029541?text=Olá!%20Gostaria%20de%20mais%20informações."
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+        className="
+    fixed
+    bottom-6
+    right-6
+    z-[999]
+    w-14
+    h-14
+    rounded-full
+    bg-[#25D366]
+    flex
+    items-center
+    justify-center
+    shadow-[0_12px_30px_rgba(0,0,0,0.45)]
+    hover:scale-110
+    hover:shadow-[0_16px_40px_rgba(0,0,0,0.55)]
+    transition-transform
+    duration-300
+  "
+      >
+        <MessageCircle className="w-7 h-7 text-white" />
+      </motion.a>
     </AnimatedPage>
   );
 }
