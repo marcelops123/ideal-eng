@@ -296,13 +296,16 @@ export default function Home() {
                 name: "Pedro Henrique",
                 role: "Sócio Diretor",
                 photo: "/images/bg-pedro.png",
-                bio: `Com mais de quinze anos de experiência em Saúde, Segurança do Trabalho, Meio Ambiente e Qualidade...`,
+                bio: `Com mais de quinze anos de experiência em Saúde, Segurança do Trabalho, Meio Ambiente e Qualidade, atua desde 2010 em empresas de assessoria, grandes obras e operações industriais em diferentes estados do país.
+Tem passagem por companhias de referência como Odebrecht Ambiental, BRK Ambiental, KWS Sementes, ADM do Brasil e LongPing, onde exerceu funções de liderança técnica e supervisão.
+Técnico e Tecnólogo em Segurança do Trabalho, Bombeiro Profissional Civil e Auditor da ISO 45001, também atua como instrutor e palestrante em segurança ocupacional.`,
               },
               {
                 name: "Guilherme Caldas",
                 role: "Sócio Diretor",
                 photo: "/images/bg-guilherme.png",
-                bio: `Engenheiro Mecânico (UFU) e pós-graduado em Engenharia de Segurança do Trabalho...`,
+                bio: `Engenheiro Mecânico formado pela Universidade Federal de Uberlândia (UFU) e pós-graduado em Engenharia de Segurança do Trabalho pela Universidade Cândido Mendes, Guilherme Caldas atua há mais de uma década na área de Saúde, Segurança e Meio Ambiente (SSMA).
+Sua trajetória profissional inclui passagens por grandes empresas dos setores de sementes, mineração e sucroenergético, como Monsanto, Biosev, Nidera/Syngenta, CMOC e LongPing, onde exerceu funções de analista, especialista e coordenador corporativo, consolidando ampla experiência técnica e de gestão. `,
               },
             ].map((d, index) => (
               <motion.div
@@ -404,42 +407,42 @@ export default function Home() {
             {[
               {
                 title: "Inventários",
-                desc: "Inventários completos com ficha técnica padrão IDEAL e ART. Espaço Confinado, Máquinas, Içamentos e Trabalho em Altura.",
+                desc: "Nossos inventários são completos e incluem uma ficha técnica padrão IDEAL, com todas as informações unitárias de cada local, além da respectiva ART. Realizamos Inventários de Espaço Confinado, Inventário de Máquinas e Equipamentos, Inventário de Equipamentos de Içamentos de Cargas e Inventário de Equipamentos de Trabalho em Altura.",
                 icon: FileText,
               },
               {
                 title: "Procedimentos",
-                desc: "Procedimentos Operacionais de Segurança com padrão IDEAL e anexos linkados.",
+                desc: "Somos especialistas no quesito dentro do território nacional. Desenvolvemos Procedimentos Operacionais de Segurança, com qualidade e padrão IDEAL, além de entregar todos os respectivos anexos linkados ao mesmo.",
                 icon: ClipboardCheck,
               },
               {
                 title: "Terceirização de Mão de Obra",
-                desc: "Triagem forte, avaliações técnicas e psicológicas para entregar o melhor perfil ao seu time.",
+                desc: "Você nos informa a necessidade e nós te entregamos o melhor perfil para contemplar o seu time! Temos um vasto banco de perfis, buscamos os melhores profissionais do mercado através de uma forte triagem, avaliações técnicas e psicológicas, tudo para você obter a melhor experiência do padrão IDEAL.",
                 icon: Users,
               },
               {
                 title: "Treinamentos",
-                desc: "Instrutores qualificados com certificações nacionais e internacionais.",
+                desc: "A IDEAL conta com instrutores competentes e qualificados, para realizar todos os treinamentos correspondentes a segurança do trabalho, saúde e meio ambiente. Nossos instrutores possuem certificações nacionais e internacionais, oferecendo um aprendizado, dinâmica e qualidade no padrão IDEAL.",
                 icon: GraduationCap,
               },
               {
                 title: "Documentações de SSMA",
-                desc: "Laudos, programas e avaliações ambientais (ruído, vibração, poeira, calor & frio) com padrão IDEAL.",
+                desc: "Elaboramos todos os documentos, programas e laudos de segurança do trabalho, saúde e meio ambiente com a qualidade e padrão IDEAL.  Desenvolvemos laudos (LTCAT, LI, LP), PGR, PCMSO, PCA, PPR, PGRSS, análises ergonômicas, PPP, ordens de serviços, CAT, análises de riscos de projetos e muito mais. Além de realizarmos avaliações ambientais de ruído, vibrações, poeiras, calor & frio.",
                 icon: FolderOpen,
               },
               {
                 title: "Projetos",
-                desc: "Projetos e laudos com CREA/ART: linhas de vida, proteções coletivas, plano de rigging e mais.",
+                desc: "Temos uma divisão de projetos qualificada e experiente para lhe oferecer as melhores soluções do mercado, com a garantia do conselho regional de engenharia e agronomia (CREA) em conjunto com a respectiva anotação de responsabilidade técnica (ART). Desenvolvemos projetos  e laudos de linhas de vida, proteções coletivas, plano de rigging e muito mais.",
                 icon: Ruler,
               },
               {
                 title: "Gestão e-Social",
-                desc: "Gestão completa de SST e envio dos eventos ao eSocial com comprovantes mensais.",
+                desc: "Não se preocupe com o envio dos eventos de SST no eSocial da sua empresa! Fazemos a gestão completa de SST para a sua empresa, incluindo a elaboração de documentos e envio dos eventos ao eSocial. Garantimos todas as transmissões de eventos, com qualidade, pontualidade e responsabilidade, além de lhes oferecer mensalmente todos os comprovantes de envios.",
                 icon: ShieldCheck,
               },
               {
-                title: "Assessorias Customizadas",
-                desc: "Análises de risco, diagnósticos, auditorias, investigação de acidentes, licenciamento ambiental e mais.",
+                title: "Assessorias Customizadas de SSMA",
+                desc: "Temos uma assessoria customizada para o seu momento e cenário, utilizamos toda a nossa experiência, proficiência e qualificação, para lhes entregar diversos serviços como, analises de riscos, diagnósticos operacionais de SST, melhorias de processos, auditorias, investigação de acidentes, licenciamento ambiental, outorga de recursos hídricos, pareceres técnicos e muito mais. ",
                 icon: SlidersHorizontal,
               },
             ].map((s, index, arr) => {
@@ -497,7 +500,7 @@ export default function Home() {
           </div>
         </div>
       </AnimatedSection>
- 
+
 
       {/* 5) ESPAÇO CONFINADO (split foto + texto com gradiente) */}
       <AnimatedSection id="espaco-confinado" className="relative overflow-hidden">
@@ -542,8 +545,11 @@ export default function Home() {
                 </h3>
 
                 <p className="[font-family:var(--font-body)] text-white/75 mt-8 leading-relaxed text-base md:text-lg">
-                  Nossos inventários são elaborados de forma completa e padronizada,
-                  acompanhados de Ficha Técnica Padrão IDEAL e ART emitida por profissional habilitado.
+                  Nossos inventários são elaborados de forma completa e padronizada, seguindo os mais altos critérios técnicos da IDEAL SST. Os documentos são acompanhados de uma Ficha Técnica Padrão IDEAL, que reúne informações detalhadas e unitárias de todos os ambientes, além da respectiva ART (Anotação de Responsabilidade Técnica) emitida por profissional habilitado.<br></br><br></br>
+
+                  Realizamos Inventários de Espaço Confinado, assegurando o mapeamento preciso dos riscos, a conformidade com as normas regulamentadoras e a implementação de medidas preventivas eficazes.
+
+                  Nosso objetivo é oferecer diagnósticos técnicos confiáveis que contribuam para a segurança dos colaboradores, a eficiência operacional e o cumprimento das exigências legais em todos os ambientes de trabalho.
                 </p>
 
                 <p className="[font-family:var(--font-body)] text-white/75 mt-4 leading-relaxed text-base md:text-lg">
