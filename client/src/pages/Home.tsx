@@ -434,7 +434,56 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                 title: "Projetos",
                 desc: "Temos uma divisão de projetos qualificada e experiente para lhe oferecer as melhores soluções do mercado, com a garantia do conselho regional de engenharia e agronomia (CREA) em conjunto com a respectiva anotação de responsabilidade técnica (ART). Desenvolvemos projetos  e laudos de linhas de vida, proteções coletivas, plano de rigging e muito mais.",
                 icon: Ruler,
-              },
+              }
+            ].map((s, index, arr) => {
+              const Icon = s.icon;
+
+              return (
+                <React.Fragment key={s.title}>
+                  {/* Card real */}
+                  <div
+                    className="
+                group
+                bg-[#0b0b0b]
+                border border-white/10
+                rounded-2xl
+                p-6
+                transition-all
+                duration-300
+                hover:border-[var(--ideal-orange)]
+                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
+              "
+                  >
+                    <div
+                      className="
+                  w-12 h-12
+                  rounded-xl
+                  bg-white/5
+                  flex items-center justify-center
+                  mb-4
+                  transition-colors
+                  group-hover:bg-[var(--ideal-orange)]
+                "
+                    >
+                      <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                    </div>
+
+                    <h3 className="[font-family:var(--font-title)] uppercase tracking-[0.14em] text-white text-sm mb-2">
+                      {s.title}
+                    </h3>
+
+                    <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
+                      {s.desc}
+                    </p>
+                  </div>
+
+
+                </React.Fragment>
+              );
+            })}
+          </div>
+          <div className="mt-12 justify-center lg:pl-60 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6">
+            {[
               {
                 title: "Gestão e-Social",
                 desc: "Não se preocupe com o envio dos eventos de SST no eSocial da sua empresa! Fazemos a gestão completa de SST para a sua empresa, incluindo a elaboração de documentos e envio dos eventos ao eSocial. Garantimos todas as transmissões de eventos, com qualidade, pontualidade e responsabilidade, além de lhes oferecer mensalmente todos os comprovantes de envios.",
@@ -487,13 +536,7 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                     </p>
                   </div>
 
-                  {/* Placeholder invisível NO MEIO (entre 7 e 8) */}
-                  {index === arr.length - 2 && (
-                    <div
-                      className="hidden lg:block pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  )}
+
                 </React.Fragment>
               );
             })}
