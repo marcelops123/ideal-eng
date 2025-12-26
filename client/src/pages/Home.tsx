@@ -16,6 +16,10 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { title } from "process";
+import ShinyText from "@/components/ShinyText";
+import TiltedCard from "@/components/TiltedCard";
+import GradientText from "@/components/GradientText";
+import SpotlightCard from "@/components/SpotlightCard";
 
 const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -182,17 +186,31 @@ export default function Home() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6">
-          {/* Título (HK Modular) */}
-          <h2
-            className="
+          <div className="flex justify-start">
+            <h2
+              className="
         [font-family:var(--font-title)]
         uppercase tracking-[0.14em]
         text-[var(--ideal-orange)]
         text-3xl md:text-4xl
       "
-          >
-            Quem Somos
-          </h2>
+            >
+              <GradientText
+                className="text-3xl md:text-4xl text-start"
+                colors={[
+                  "#e53935",
+                  "#f4511e",
+                  "#fb8c00",
+                  "#ffa726",
+                  "#ff6f00",
+                ]}
+                animationSpeed={6}
+                showBorder={false}
+              >
+                QUEM SOMOS
+              </GradientText>
+            </h2>
+          </div>
 
           {/* Texto (Jura) */}
           <div className="mt-8 max-w-4xl space-y-6">
@@ -232,46 +250,56 @@ export default function Home() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-80px" }}
-                    className="
-        bg-[var(--ideal-orange-2)]
-        text-white
-        rounded-xl
-        p-6
-        shadow-[0_18px_40px_rgba(0,0,0,0.35)]
-        relative overflow-hidden
-        flex items-center justify-center
-        text-center
-        min-h-[220px]
-      "
+                    className="flex items-stretch justify-center"
                   >
-                    {/* brilho interno suave */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-transparent to-black/10" />
+                    <TiltedCard
+                      // Você pode trocar por uma imagem mais neutra (textura/gradiente) se não quiser “álbum”
+                      imageSrc="/images/bg-espaco-confinado.png"
+                      altText={`${item.k}`}
+                      captionText={item.k}
+                      containerHeight="220px"
+                      containerWidth="100%"
+                      imageHeight="220px"
+                      imageWidth="100%"
+                      rotateAmplitude={12}
+                      scaleOnHover={1.02}
+                      showMobileWarning={false}
+                      showTooltip={false}
+                      displayOverlayContent={true}
+                      overlayContent={
+                        <div className="relative h-full w-full rounded-xl overflow-hidden flex items-center justify-center text-center">
+                          <div className="absolute inset-0 bg-[var(--ideal-orange-2)]/90" />
+                          <div className="absolute inset-0 bg-gradient-to-b from-white/12 via-transparent to-black/15" />
 
-                    <div className="relative flex flex-col items-center justify-center">
-                      <div
-                        className="
-            [font-family:var(--font-title)]
-            uppercase
-            tracking-[0.16em]
-            text-lg md:text-xl
-            font-bold
-            mb-4
-          "
-                      >
-                        {item.k}
-                      </div>
+                          <div className="relative z-10 flex flex-col items-center justify-center px-6 py-6 min-h-[220px]">
+                            <div
+                              className="
+                      [font-family:var(--font-title)]
+                      uppercase
+                      tracking-[0.16em]
+                      text-lg md:text-xl
+                      font-bold
+                      mb-4
+                      text-white
+                    "
+                            >
+                              {item.k}
+                            </div>
 
-                      <p
-                        className="
-            [font-family:var(--font-body)]
-            text-white/95
-            text-sm md:text-base
-            leading-relaxed
-          "
-                      >
-                        {item.v}
-                      </p>
-                    </div>
+                            <p
+                              className="
+                      [font-family:var(--font-body)]
+                      text-white/95
+                      text-sm md:text-base
+                      leading-relaxed
+                    "
+                            >
+                              {item.v}
+                            </p>
+                          </div>
+                        </div>
+                      }
+                    />
                   </motion.div>
                 ))}
               </div>
@@ -399,9 +427,25 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
         <div className="absolute inset-0 bg-[radial-gradient(55%_65%_at_85%_35%,rgba(255,59,31,.16)_0%,rgba(0,0,0,0)_70%)]" />
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
-          <Title className="text-3xl md:text-4xl">
-            Nossos Principais Serviços
-          </Title>
+
+          <div className="text-left">
+
+
+            <GradientText
+              className="text-3xl md:text-4xl text-start"
+              colors={[
+                "#e53935",
+                "#f4511e",
+                "#fb8c00",
+                "#ffa726",
+                "#ff6f00",
+              ]}
+              animationSpeed={6}
+              showBorder={false}
+            >
+              NOSSOS PRINCIPAIS SERVIÇOS
+            </GradientText>
+          </div>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -439,11 +483,9 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
               const Icon = s.icon;
 
               return (
+
                 <React.Fragment key={s.title}>
-                  {/* Card real */}
-                  <div
-                    className="
-                group
+                  <SpotlightCard className="group
                 bg-[#0b0b0b]
                 border border-white/10
                 rounded-2xl
@@ -451,11 +493,16 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                 transition-all
                 duration-300
                 hover:border-[var(--ideal-orange)]
-                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
-              "
-                  >
+                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]" spotlightColor="rgba(250, 138, 104, 0.603)">
+                    {/* Card real */}
+
                     <div
                       className="
+                
+              "
+                    >
+                      <div
+                        className="
                   w-12 h-12
                   rounded-xl
                   bg-white/5
@@ -464,20 +511,20 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                   transition-colors
                   group-hover:bg-[var(--ideal-orange)]
                 "
-                    >
-                      <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                      >
+                        <Icon className="w-6 h-6 text-[var(--ideal-orange)] group-hover:text-white" />
+                      </div>
+
+                      <h3 className="[font-family:var(--font-title)] uppercase tracking-[0.14em] text-white text-sm mb-2">
+                        {s.title}
+                      </h3>
+
+                      <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
+                        {s.desc}
+                      </p>
                     </div>
 
-                    <h3 className="[font-family:var(--font-title)] uppercase tracking-[0.14em] text-white text-sm mb-2">
-                      {s.title}
-                    </h3>
-
-                    <p className="[font-family:var(--font-body)] text-white/65 text-sm leading-relaxed">
-                      {s.desc}
-                    </p>
-                  </div>
-
-
+                  </SpotlightCard>
                 </React.Fragment>
               );
             })}
@@ -499,10 +546,7 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
 
               return (
                 <React.Fragment key={s.title}>
-                  {/* Card real */}
-                  <div
-                    className="
-                group
+                  <SpotlightCard className="group
                 bg-[#0b0b0b]
                 border border-white/10
                 rounded-2xl
@@ -510,8 +554,9 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                 transition-all
                 duration-300
                 hover:border-[var(--ideal-orange)]
-                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]
-              "
+                hover:shadow-[0_10px_20px_rgba(0,0,0,0.45)]" spotlightColor="rgba(250, 138, 104, 0.603)">
+                  {/* Card real */}
+                  <div
                   >
                     <div
                       className="
@@ -536,7 +581,7 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                     </p>
                   </div>
 
-
+                  </SpotlightCard>
                 </React.Fragment>
               );
             })}
@@ -637,7 +682,21 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
             leading-tight
           "
               >
-                Alguns Parceiros
+                <GradientText
+                  className="text-3xl md:text-4xl text-start"
+                  colors={[
+                    "#e53935",
+                    "#f4511e",
+                    "#fb8c00",
+                    "#ffa726",
+                    "#ff6f00",
+                  ]}
+                  animationSpeed={6}
+                  showBorder={false}
+                >
+                  Alguns Parceiros
+                </GradientText>
+
               </h2>
 
               <p className="[font-family:var(--font-body)] text-white/78 mt-7 text-base sm:text-lg md:text-xl leading-relaxed">
@@ -682,11 +741,32 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
 
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           <h2 className="[font-family:var(--font-title)] uppercase tracking-[0.16em] text-[var(--ideal-orange)] text-3xl md:text-5xl text-center">
-            Contato Comercial
+            <div className="flex justify-center">
+              <GradientText
+                className="text-3xl md:text-4xl"
+                colors={[
+                  "#e53935",
+                  "#f4511e",
+                  "#fb8c00",
+                  "#ffa726",
+                  "#ff6f00",
+                ]}
+                animationSpeed={6}
+                showBorder={false}
+              >
+                CONTATO COMERCIAL
+              </GradientText>
+            </div>
           </h2>
 
-          <p className="[font-family:var(--font-body)] text-white/70 text-center mt-6">
-            Entre em contato conosco e conheça o nosso trabalho.
+          <p className="text-center">
+            <ShinyText
+              text="Entre em contato conosco e conheça o nosso trabalho."
+              disabled={false}
+              speed={3}
+              className='
+            [font-family:var(--font-body)] text-white/70 text-center mt-6'
+            />
           </p>
 
           <div className="mt-12 max-w-3xl mx-auto space-y-5">

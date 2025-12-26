@@ -10,7 +10,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-
+import BlurText from "./BlurText";
 interface NavItem {
   label: string;
   href: string;
@@ -48,8 +48,20 @@ export default function Navigation() {
             />
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-white font-bold text-lg">IDEAL</h1>
-            <p className="text-[#b0b0b0] text-xs">ENGENHARIA + ASSESSORIA</p>
+            <BlurText
+              text="IDEAL"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-white font-bold text-lg"
+            />
+            <BlurText
+              text="ENGENHARIA + ASSESSORIA"
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-[#b0b0b0] text-xs"
+            />
           </div>
         </div>
 
@@ -61,8 +73,8 @@ export default function Navigation() {
               href={item.href}
               onClick={() => handleNavClick(item.id)}
               className={`px-3 py-2 text-sm font-medium transition-all duration-300 hover:text-[#FF5722] ${activeSection === item.id
-                  ? "text-[#FF5722] border-b-2 border-[#FF5722]"
-                  : "text-[#e0e0e0]"
+                ? "text-[#FF5722] border-b-2 border-[#FF5722]"
+                : "text-[#e0e0e0]"
                 }`}
             >
               {item.label}
@@ -93,8 +105,8 @@ export default function Navigation() {
                 href={item.href}
                 onClick={() => handleNavClick(item.id)}
                 className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${activeSection === item.id
-                    ? "text-[#FF5722] bg-[#2a2a2a] rounded"
-                    : "text-[#e0e0e0] hover:text-[#FF5722]"
+                  ? "text-[#FF5722] bg-[#2a2a2a] rounded"
+                  : "text-[#e0e0e0] hover:text-[#FF5722]"
                   }`}
               >
                 {item.label}
