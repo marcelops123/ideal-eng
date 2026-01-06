@@ -7,10 +7,8 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 
 const HERO_IMAGES = [
-  "/images/hero-banner.jpg",   
-  "/images/innovation-tech.jpg",
-  "/images/team-section.jpg",
-  "/images/services-abstract.jpg",
+  "/images/hero-banner-1.png",   
+  "/images/hero-banner-2.png",   
 ];
 
 export default function Hero() {
@@ -20,12 +18,12 @@ export default function Hero() {
       className="relative min-h-screen w-full overflow-hidden bg-[#050505]"
     >
       {/* Background Carousel */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 hidden md:block">
         <Swiper
           modules={[Autoplay, EffectFade]}
           effect="fade"
           loop
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{ delay: 6000, disableOnInteraction: false }}
           slidesPerView={1}
           className="h-full w-full"
         >
@@ -35,7 +33,7 @@ export default function Hero() {
                 <img
                   src={src}
                   alt=""
-                  className="h-full w-full object-cover"
+                  className=" mt-30  w-full object-cover"
                   draggable={false}
                 />
                 {/* Overlay para manter legibilidade do conteúdo */}
