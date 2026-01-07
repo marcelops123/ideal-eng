@@ -7,8 +7,8 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 
 const HERO_IMAGES = [
-  "/images/hero-banner-1.png",   
-  "/images/hero-banner-2.png",   
+  "/images/hero-banner-1.webp",   
+  "/images/hero-banner-2.webp",   
 ];
 
 export default function Hero() {
@@ -23,7 +23,7 @@ export default function Hero() {
           modules={[Autoplay, EffectFade]}
           effect="fade"
           loop
-          autoplay={{ delay: 6000, disableOnInteraction: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           slidesPerView={1}
           className="h-full w-full"
         >
@@ -33,7 +33,7 @@ export default function Hero() {
                 <img
                   src={src}
                   alt=""
-                  className=" mt-30  w-full object-cover"
+                  className=" mt-30 h-full w-full object-cover"
                   draggable={false}
                 />
                 {/* Overlay para manter legibilidade do conteúdo */}
@@ -52,7 +52,7 @@ export default function Hero() {
 
       {/* Conteúdo central com fade-in */}
       <motion.div
-        className="relative z-10 flex min-h-screen items-center justify-center"
+        className="relative z-10 flex min-h-screen items-center justify-center visible md:invisible"
         initial={{ opacity: 0, y: 90 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 2.0, ease: "easeOut" }}
