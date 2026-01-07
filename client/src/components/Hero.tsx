@@ -1,17 +1,21 @@
 import { motion } from "framer-motion";
 
 // Swiper
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { useState } from "react";
 import "swiper/css";
-import "swiper/css/effect-fade";
+import "swiper/css/effect-cube";
+import { Autoplay, EffectCube } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const HERO_IMAGES = [
-  "/images/hero-banner-1.webp",   
-  "/images/hero-banner-2.webp",   
+  "/images/hero-banner-1.webp",
+  "/images/hero-banner-2.webp",
 ];
 
 export default function Hero() {
+  const [currentIndex, setCurrentIndex] = useState(1);
+
+  const totalSlides = 2;
   return (
     <section
       id="hero"
@@ -19,12 +23,20 @@ export default function Hero() {
     >
       {/* Background Carousel */}
       <div className="absolute inset-0 hidden md:block">
+        <div className="absolute bottom-4 right-4 z-10 text-white text-sm bg-black/50 px-3 py-1 rounded">
+          {String(currentIndex).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}
+        </div>
+
         <Swiper
-          modules={[Autoplay, EffectFade]}
-          effect="fade"
+          modules={[Autoplay, EffectCube]}
+          effect="cube"
           loop
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          speed={1200}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
           slidesPerView={1}
+          onSlideChange={(swiper) => {
+            setCurrentIndex(swiper.realIndex + 1);
+          }}
           className="h-full w-full"
         >
           {HERO_IMAGES.map((src) => (
@@ -34,10 +46,10 @@ export default function Hero() {
                   src={src}
                   alt=""
                   className=" mt-30 h-full w-full object-cover"
-                  draggable={false}
+                  draggable={true}
                 />
                 {/* Overlay para manter legibilidade do conteúdo */}
-                <div className="absolute inset-0 bg-black/55" />
+                <div className="absolute inset-0 bg-black/15" />
               </div>
             </SwiperSlide>
           ))}
@@ -132,4 +144,3 @@ export default function Hero() {
     </section>
   );
 }
-  

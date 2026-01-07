@@ -350,7 +350,7 @@ Sua trajetória profissional inclui passagens por grandes empresas dos setores d
                     <img
                       src={d.photo}
                       alt={d.name}
-                      className="w-44 h-44 object-cover rounded-md"
+                      className="w-44 h-44 object-fit rounded-md"
                     />
 
                     <div className="mt-5 [font-family:var(--font-title)] text-white uppercase tracking-[0.12em]">
