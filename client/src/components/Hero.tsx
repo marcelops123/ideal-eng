@@ -23,9 +23,19 @@ export default function Hero() {
     >
       {/* Background Carousel */}
       <div className="absolute inset-0 hidden md:block">
-        <div className="absolute bottom-4 right-4 z-10 text-white text-sm bg-black/50 px-3 py-1 rounded">
-          {String(currentIndex).padStart(2, "0")} / {String(totalSlides).padStart(2, "0")}
-        </div>
+       <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2
+                flex items-center gap-2
+                text-white text-sm tracking-widest
+                bg-black/50 px-4 py-1 rounded-full backdrop-blur">
+  <span className="font-semibold">
+    {String(currentIndex).padStart(2, "0")}
+  </span>
+  <span className="opacity-60">/</span>
+  <span className="opacity-60">
+    {String(totalSlides).padStart(2, "0")}
+  </span>
+</div>
+
 
         <Swiper
           modules={[Autoplay, EffectCube]}
@@ -45,7 +55,7 @@ export default function Hero() {
                 <img
                   src={src}
                   alt=""
-                  className=" mt-30 h-full w-full object-cover"
+                  className="mt-10  h-full w-full object-fill"
                   draggable={true}
                 />
                 {/* Overlay para manter legibilidade do conteúdo */}
