@@ -43,74 +43,118 @@
 }
 
 :root {
-  --primary: #FF5722;
+  /* Nova paleta sofisticada - Backgrounds */
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1F1F1F;
+  --bg-elevated: #2A2A2A;
+
+  /* Accent - Laranja sofisticado */
+  --accent-primary: #FF6B35;
+  --accent-secondary: #FF8142;
+  --accent-muted: #CC5629;
+  --accent-glow: rgba(255, 107, 53, 0.15);
+
+  /* Texto */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8B8B8;
+  --text-muted: #737373;
+
+  /* Bordas e linhas */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(255, 107, 53, 0.3);
+
+  /* Mapeamento para Tailwind/Shadcn */
+  --primary: #FF6B35;
   --primary-foreground: #ffffff;
-  --sidebar-primary: #FF5722;
+  --sidebar-primary: #FF6B35;
   --sidebar-primary-foreground: #ffffff;
-  --chart-1: #FF5722;
-  --chart-2: #FF7043;
-  --chart-3: #FF6B35;
-  --chart-4: #FF5722;
+  --chart-1: #FF6B35;
+  --chart-2: #FF8142;
+  --chart-3: #CC5629;
+  --chart-4: #FF6B35;
   --chart-5: #E64A19;
   --radius: 0.65rem;
-  --background: #0a0a0a;
+  --background: #0A0A0A;
   --foreground: #ffffff;
-  --card: #1a1a1a;
+  --card: #1F1F1F;
   --card-foreground: #ffffff;
-  --popover: #1a1a1a;
+  --popover: #1F1F1F;
   --popover-foreground: #ffffff;
-  --secondary: #2a2a2a;
-  --secondary-foreground: #e0e0e0;
-  --muted: #3a3a3a;
-  --muted-foreground: #b0b0b0;
-  --accent: #FF5722;
+  --secondary: #141414;
+  --secondary-foreground: #B8B8B8;
+  --muted: #2A2A2A;
+  --muted-foreground: #737373;
+  --accent: #FF6B35;
   --accent-foreground: #ffffff;
-  --destructive: #FF5722;
+  --destructive: #FF6B35;
   --destructive-foreground: #ffffff;
-  --border: #2a2a2a;
-  --input: #1a1a1a;
-  --ring: #FF5722;
-  --sidebar: #1a1a1a;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: #1F1F1F;
+  --ring: #FF6B35;
+  --sidebar: #141414;
   --sidebar-foreground: #ffffff;
-  --sidebar-accent: #FF5722;
+  --sidebar-accent: #FF6B35;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2a2a2a;
-  --sidebar-ring: #FF5722;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #FF6B35;
 }
 
 .dark {
-  --primary: #FF5722;
+  /* Nova paleta sofisticada - Backgrounds */
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1F1F1F;
+  --bg-elevated: #2A2A2A;
+
+  /* Accent - Laranja sofisticado */
+  --accent-primary: #FF6B35;
+  --accent-secondary: #FF8142;
+  --accent-muted: #CC5629;
+  --accent-glow: rgba(255, 107, 53, 0.15);
+
+  /* Texto */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8B8B8;
+  --text-muted: #737373;
+
+  /* Bordas e linhas */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(255, 107, 53, 0.3);
+
+  /* Mapeamento para Tailwind/Shadcn */
+  --primary: #FF6B35;
   --primary-foreground: #ffffff;
-  --sidebar-primary: #FF5722;
+  --sidebar-primary: #FF6B35;
   --sidebar-primary-foreground: #ffffff;
-  --background: #0a0a0a;
+  --background: #0A0A0A;
   --foreground: #ffffff;
-  --card: #1a1a1a;
+  --card: #1F1F1F;
   --card-foreground: #ffffff;
-  --popover: #1a1a1a;
+  --popover: #1F1F1F;
   --popover-foreground: #ffffff;
-  --secondary: #2a2a2a;
-  --secondary-foreground: #e0e0e0;
-  --muted: #3a3a3a;
-  --muted-foreground: #b0b0b0;
-  --accent: #FF5722;
+  --secondary: #141414;
+  --secondary-foreground: #B8B8B8;
+  --muted: #2A2A2A;
+  --muted-foreground: #737373;
+  --accent: #FF6B35;
   --accent-foreground: #ffffff;
-  --destructive: #FF5722;
+  --destructive: #FF6B35;
   --destructive-foreground: #ffffff;
-  --border: #2a2a2a;
-  --input: #1a1a1a;
-  --ring: #FF5722;
-  --chart-1: #FF5722;
-  --chart-2: #FF7043;
-  --chart-3: #FF6B35;
-  --chart-4: #FF5722;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: #1F1F1F;
+  --ring: #FF6B35;
+  --chart-1: #FF6B35;
+  --chart-2: #FF8142;
+  --chart-3: #CC5629;
+  --chart-4: #FF6B35;
   --chart-5: #E64A19;
-  --sidebar: #1a1a1a;
+  --sidebar: #141414;
   --sidebar-foreground: #ffffff;
-  --sidebar-accent: #FF5722;
+  --sidebar-accent: #FF6B35;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #2a2a2a;
-  --sidebar-ring: #FF5722;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #FF6B35;
 }
 
 @layer base {
@@ -168,6 +212,19 @@
     to {
       width: 100%;
     }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
   }
 
   .animate-fade-in {

@@ -22,24 +22,31 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         {/* Fonts + Tokens globais (cores/gradientes) */}
         <style>{`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Jura:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
   :root{
-    --ideal-orange: #ff3b1f;
-    --ideal-orange-2: #ff5a2a;
-    --ideal-bg: #050505;
+    /* Cores da marca - Laranja sofisticado */
+    --ideal-orange: #FF6B35;
+    --ideal-orange-2: #FF8142;
+    --ideal-orange-muted: #CC5629;
+    --ideal-bg: #0A0A0A;
     --ideal-muted: rgba(255,255,255,.72);
     --ideal-soft: rgba(255,255,255,.55);
 
-    /* TÍTULOS AGORA EM ROBOTO */
-    --font-title: "Roboto", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-
-    /* TEXTOS CONTINUAM EM JURA */
-    --font-body: "Jura", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    /* Tipografia Inter */
+    --font-title: "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   }
 
   html, body {
     background: var(--ideal-bg);
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 `}</style>
 

@@ -1,16 +1,14 @@
 /**
  * Navigation Component
- * Design: Minimalismo Corporativo Geométrico
- * - Menu horizontal fixo no topo
- * - Logo IDEAL à esquerda
- * - Links de navegação para as 11 seções
- * - Animações suaves ao hover
- * - Fundo escuro com borda laranja na base
+ * Design: Header sofisticado com transparência e linha decorativa
+ * - Fundo transparente → sólido no scroll
+ * - Linha sutil laranja com gradiente fade nas pontas
+ * - Animações suaves
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import BlurText from "./BlurText";
+
 interface NavItem {
   label: string;
   href: string;
@@ -19,16 +17,25 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Quem Somos", href: "#quem-somos", id: "1" },
-  { label: "Contato Diretoria", href: "#contato-diretoria", id: "2" },
-  { label: "Estados", href: "#estados", id: "3" },
+  { label: "Diretoria", href: "#contato-diretoria", id: "2" },
+  { label: "Cobertura", href: "#estados", id: "3" },
   { label: "Serviços", href: "#servicos", id: "4" },
-  { label: "Parceiros", href: "#parceiros", id: "5" },
-  { label: "Espaço Confinado", href: "#espaco-confinado", id: "6" }
+  { label: "Terceirização", href: "#terceirizacao", id: "5" },
+  { label: "Parceiros", href: "#parceiros", id: "6" },
 ];
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleNavClick = (id: string) => {
     setActiveSection(id);
@@ -36,34 +43,32 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-[#2a2a2a]">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[var(--bg-primary)]/95 backdrop-blur-md"
+          : "bg-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center">
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-lg overflow-hidden border border-[var(--border-subtle)] group-hover:border-[var(--accent-primary)] transition-colors duration-300">
             <img
               src="/images/logo-ideal-eng.png"
-              alt="Imagem institucional"
+              alt="IDEAL Engenharia"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="hidden sm:block">
-            <BlurText
-              text="IDEAL"
-              delay={150}
-              animateBy="words"
-              direction="top"
-              className="text-white font-bold text-lg"
-            />
-            <BlurText
-              text="ENGENHARIA + ASSESSORIA"
-              delay={150}
-              animateBy="words"
-              direction="top"
-              className="text-[#b0b0b0] text-xs"
-            />
+            <span className="text-[var(--text-primary)] font-bold text-lg tracking-tight block leading-tight">
+              IDEAL
+            </span>
+            <span className="text-[var(--text-muted)] text-[10px] uppercase tracking-[0.15em]">
+              Engenharia + SST
+            </span>
           </div>
-        </div>
+        </a>
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-1">
@@ -72,49 +77,89 @@ export default function Navigation() {
               key={item.id}
               href={item.href}
               onClick={() => handleNavClick(item.id)}
-              className={`px-3 py-2 text-sm font-medium transition-all duration-300 hover:text-[#FF5722] ${activeSection === item.id
-                ? "text-[#FF5722] border-b-2 border-[#FF5722]"
-                : "text-[#e0e0e0]"
-                }`}
+              className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
+                activeSection === item.id
+                  ? "text-[var(--accent-primary)]"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]/50"
+              }`}
             >
               {item.label}
+              {activeSection === item.id && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-primary)]" />
+              )}
             </a>
           ))}
+
+          {/* CTA Button */}
+          <a
+            href="https://wa.me/5538999029541?text=Olá! Gostaria de mais informações."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-4 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent-glow)]"
+          >
+            Fale Conosco
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden p-2 hover:bg-[#1a1a1a] rounded transition-colors"
+          className="lg:hidden p-2.5 hover:bg-[var(--bg-elevated)] rounded-lg transition-colors border border-transparent hover:border-[var(--border-subtle)]"
         >
           {isOpen ? (
-            <X className="w-6 h-6 text-white" />
+            <X className="w-5 h-5 text-[var(--text-primary)]" />
           ) : (
-            <Menu className="w-6 h-6 text-white" />
+            <Menu className="w-5 h-5 text-[var(--text-primary)]" />
           )}
         </button>
       </div>
 
+      {/* Linha decorativa com gradiente */}
+      <div
+        className={`h-px w-full transition-opacity duration-300 ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, var(--accent-primary) 20%, var(--accent-primary) 80%, transparent 100%)",
+        }}
+      />
+
       {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="lg:hidden bg-[#1a1a1a] border-t border-[#2a2a2a]">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-2">
+      <div
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="bg-[var(--bg-secondary)]/95 backdrop-blur-md border-t border-[var(--border-subtle)]">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
             {navItems.map((item) => (
               <a
                 key={item.id}
                 href={item.href}
                 onClick={() => handleNavClick(item.id)}
-                className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${activeSection === item.id
-                  ? "text-[#FF5722] bg-[#2a2a2a] rounded"
-                  : "text-[#e0e0e0] hover:text-[#FF5722]"
-                  }`}
+                className={`px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
+                  activeSection === item.id
+                    ? "text-[var(--accent-primary)] bg-[var(--accent-glow)]"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]"
+                }`}
               >
                 {item.label}
               </a>
             ))}
+
+            {/* Mobile CTA */}
+            <a
+              href="https://wa.me/5538999029541?text=Olá! Gostaria de mais informações."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 px-4 py-3 text-sm font-semibold text-center text-white bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] rounded-lg transition-all duration-300"
+            >
+              Fale Conosco
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
