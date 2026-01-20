@@ -26,8 +26,9 @@ import {
   ArrowRight,
   Check,
 } from "lucide-react";
-import { animate, motion, useInView, useMotionValue } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 
 const AnimatedPage: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -81,11 +82,13 @@ function CountUp({
   );
 }
 
-const AnimatedSection: React.FC<
-  React.HTMLAttributes<HTMLElement> & { id?: string }
-> = ({ children, className = "", ...rest }) => (
+const AnimatedSection: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}> = ({ children, className = "", id }) => (
   <motion.section
-    {...rest}
+    id={id}
     className={className}
     initial={{ opacity: 0, y: 28 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -120,6 +123,8 @@ const SectionTitle: React.FC<{
 );
 
 export default function Home() {
+  const [lightboxPhoto, setLightboxPhoto] = useState<{ src: string; empresa: string; local: string } | null>(null);
+
   return (
     <AnimatedPage>
       <Navigation />
@@ -130,7 +135,19 @@ export default function Home() {
         id="quem-somos"
         className="relative overflow-hidden py-24 md:py-32 bg-[var(--bg-primary)]"
       >
-        <div className="max-w-7xl mx-auto px-6">
+        {/* Background image sutil */}
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: "url('/images/team-section.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        {/* Overlay gradiente para suavizar */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]" />
+
+        <div className="relative max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Coluna Esquerda - Texto */}
             <div>
@@ -205,8 +222,20 @@ export default function Home() {
       </AnimatedSection>
 
       {/* SEÇÃO: MISSÃO / VISÃO / VALORES */}
-      <AnimatedSection className="relative py-24 md:py-32 bg-[var(--bg-secondary)]">
-        <div className="max-w-7xl mx-auto px-6">
+      <AnimatedSection className="relative py-24 md:py-32 bg-[var(--bg-secondary)] overflow-hidden">
+        {/* Background image sutil */}
+        <div
+          className="absolute inset-0 opacity-[0.12]"
+          style={{
+            backgroundImage: "url('/images/workplace-safety.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        {/* Overlay gradiente para suavizar */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-secondary)] via-transparent to-[var(--bg-secondary)]" />
+
+        <div className="relative max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
@@ -628,6 +657,86 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
+      {/* SEÇÃO: IDEAL PELO BRASIL */}
+      <AnimatedSection
+        id="ideal-pelo-brasil"
+        className="relative py-20 md:py-28 bg-[var(--bg-primary)] overflow-hidden"
+      >
+        <div className="max-w-7xl mx-auto px-6 mb-12">
+          <SectionTitle centered subtitle="Presentes em todo o território nacional">
+            Ideal pelo{" "}
+            <span className="text-[var(--accent-primary)]">Brasil</span>
+          </SectionTitle>
+        </div>
+
+        {/* Photo Carousel Container */}
+        <div className="relative w-full overflow-hidden group/carousel">
+          {/* Fade nas bordas */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[var(--bg-primary)] to-transparent z-10 pointer-events-none" />
+
+          {/* Track animado com CSS animation para loop seamless */}
+          <div
+            className="flex items-stretch animate-carousel group-hover/carousel:pause-animation"
+            style={{ width: "max-content" }}
+          >
+            {/* Fotos duplicadas para loop infinito seamless */}
+            {[...Array(2)].map((_, setIndex) => (
+              <div key={setIndex} className="flex items-stretch">
+                {[
+                  { src: "/images/pelobrasil/Atvos - MS.jpg", empresa: "Atvos", local: "MS" },
+                  { src: "/images/pelobrasil/Aura Minerals - RN.jpg", empresa: "Aura Minerals", local: "RN" },
+                  { src: "/images/pelobrasil/Aura Minerals - TO.jpg", empresa: "Aura Minerals", local: "TO" },
+                  { src: "/images/pelobrasil/LongPing High-Tech BA.jpg", empresa: "LongPing High-Tech", local: "BA" },
+                  { src: "/images/pelobrasil/Nexa Resources - MG.jpg", empresa: "Nexa Resources", local: "MG" },
+                  { src: "/images/pelobrasil/Petrobras - RJ.jpg", empresa: "Petrobras", local: "RJ" },
+                  { src: "/images/pelobrasil/Prysmian - AM.jpg", empresa: "Prysmian", local: "AM" },
+                  { src: "/images/pelobrasil/Prysmian - MS.jpg", empresa: "Prysmian", local: "MS" },
+                  { src: "/images/pelobrasil/Prysmian - PR.jpg", empresa: "Prysmian", local: "PR" },
+                  { src: "/images/pelobrasil/Atvos - MS 2.jpg", empresa: "Atvos", local: "MS" },
+                  { src: "/images/pelobrasil/Atvos - MS 3.jpg", empresa: "Atvos", local: "MS" },
+                  { src: "/images/pelobrasil/Petrobras - RJ 2.jpg", empresa: "Petrobras", local: "RJ" },
+                ].map((photo, index) => (
+                  <div
+                    key={`${setIndex}-${index}`}
+                    className="flex-shrink-0 w-64 md:w-80 relative group/photo cursor-pointer"
+                    onClick={() => setLightboxPhoto(photo)}
+                  >
+                    {/* Container da foto */}
+                    <div className="relative h-44 md:h-56 overflow-hidden">
+                      <img
+                        src={photo.src}
+                        alt={`${photo.empresa} - ${photo.local}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover/photo:scale-110"
+                      />
+                      {/* Overlay escuro no hover */}
+                      <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/40 transition-all duration-300" />
+                      {/* Ícone de expandir */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300">
+                        <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Label com empresa e localidade */}
+                    <div className="bg-[var(--bg-secondary)] py-3 px-4">
+                      <p className="text-sm font-semibold text-[var(--text-primary)]">
+                        {photo.empresa}
+                      </p>
+                      <p className="text-xs text-[var(--accent-primary)]">
+                        {photo.local}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </AnimatedSection>
+
       {/* SEÇÃO: PARCEIROS */}
       <AnimatedSection
         id="parceiros"
@@ -838,6 +947,53 @@ export default function Home() {
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
         </svg>
       </motion.a>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxPhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[1000] bg-black/90 flex items-center justify-center p-4 md:p-8"
+            onClick={() => setLightboxPhoto(null)}
+          >
+            {/* Botão fechar */}
+            <button
+              onClick={() => setLightboxPhoto(null)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+
+            {/* Imagem ampliada */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Label no canto superior esquerdo */}
+              <div className="absolute top-4 left-4 z-10 bg-[var(--bg-primary)]/90 backdrop-blur-sm px-4 py-3 rounded-lg">
+                <h3 className="text-xl font-bold text-white">
+                  {lightboxPhoto.empresa}
+                </h3>
+                <p className="text-sm text-[var(--accent-primary)]">
+                  {lightboxPhoto.local}
+                </p>
+              </div>
+              <img
+                src={lightboxPhoto.src}
+                alt={`${lightboxPhoto.empresa} - ${lightboxPhoto.local}`}
+                className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AnimatedPage>
   );
 }

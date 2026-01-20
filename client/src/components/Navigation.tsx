@@ -21,7 +21,8 @@ const navItems: NavItem[] = [
   { label: "Cobertura", href: "#estados", id: "3" },
   { label: "Serviços", href: "#servicos", id: "4" },
   { label: "Terceirização", href: "#terceirizacao", id: "5" },
-  { label: "Parceiros", href: "#parceiros", id: "6" },
+  { label: "Ideal pelo Brasil", href: "#ideal-pelo-brasil", id: "6" },
+  { label: "Parceiros", href: "#parceiros", id: "7" },
 ];
 
 export default function Navigation() {
