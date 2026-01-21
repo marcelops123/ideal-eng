@@ -90,7 +90,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-screen w-full overflow-hidden bg-[var(--bg-primary)]"
+      className="relative min-h-screen w-full overflow-hidden bg-[var(--bg-primary)]"
     >
       {/* Background gradiente radial sutil */}
       <div
@@ -111,10 +111,10 @@ export default function Hero() {
         }}
       />
 
-      {/* Botões de navegação laterais */}
+      {/* Botões de navegação laterais - apenas desktop */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--bg-secondary)]/80 backdrop-blur-sm border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] flex items-center justify-center transition-all duration-300 group"
+        className="hidden md:flex absolute left-8 top-[50vh] -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] items-center justify-center transition-colors duration-300 group"
         aria-label="Slide anterior"
       >
         <ChevronLeft className="w-6 h-6 text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] transition-colors" />
@@ -122,15 +122,15 @@ export default function Hero() {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[var(--bg-secondary)]/80 backdrop-blur-sm border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] flex items-center justify-center transition-all duration-300 group"
+        className="hidden md:flex absolute right-8 top-[50vh] -translate-y-1/2 z-20 w-14 h-14 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:bg-[var(--accent-glow)] items-center justify-center transition-colors duration-300 group"
         aria-label="Próximo slide"
       >
         <ChevronRight className="w-6 h-6 text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] transition-colors" />
       </button>
 
       {/* Conteúdo principal */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center">
-        <div className="w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-screen flex items-center py-20 sm:py-24">
+        <div className="w-full grid lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 items-center">
           {/* Coluna Esquerda - Texto */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -146,10 +146,10 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-accent)] bg-[var(--accent-glow)] mb-6"
+                className="inline-flex items-center gap-1.5 lg:gap-2 px-2.5 py-1 lg:px-4 lg:py-2 rounded-full border border-[var(--border-accent)] bg-[var(--accent-glow)] mb-3 lg:mb-6"
               >
-                <BadgeIcon className="w-4 h-4 text-[var(--accent-primary)]" />
-                <span className="text-sm font-medium text-[var(--accent-primary)]">
+                <BadgeIcon className="w-3 h-3 lg:w-4 lg:h-4 text-[var(--accent-primary)]" />
+                <span className="text-xs lg:text-sm font-medium text-[var(--accent-primary)]">
                   {slide.badge.text}
                 </span>
               </motion.div>
@@ -159,7 +159,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-[var(--text-primary)] leading-[1.1] tracking-tight mb-6"
+                className="text-2xl sm:text-3xl lg:text-6xl xl:text-7xl font-bold text-[var(--text-primary)] leading-[1.1] tracking-tight mb-4 lg:mb-6"
               >
                 {slide.title}{" "}
                 <span className="text-[var(--accent-primary)]">
@@ -172,7 +172,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-lg lg:text-xl text-[var(--text-secondary)] leading-relaxed mb-8 max-w-xl"
+                className="text-sm sm:text-base lg:text-xl text-[var(--text-secondary)] leading-relaxed mb-4 lg:mb-8 max-w-xl"
               >
                 {slide.description}
               </motion.p>
@@ -182,31 +182,31 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row gap-4 mb-10"
+                className="flex flex-col sm:flex-row gap-3 lg:gap-4 mb-4 lg:mb-10"
               >
                 <a
                   href="https://wa.me/5538999029541?text=Olá! Gostaria de mais informações."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-white bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent-glow)] hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 lg:px-8 lg:py-4 text-xs sm:text-sm lg:text-base font-semibold text-white bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent-glow)] hover:-translate-y-0.5"
                 >
                   Fale Conosco
                 </a>
                 <a
                   href="#servicos"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] rounded-xl transition-all duration-300 hover:bg-[var(--accent-glow)]"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 lg:px-8 lg:py-4 text-xs sm:text-sm lg:text-base font-semibold text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] rounded-xl transition-all duration-300 hover:bg-[var(--accent-glow)]"
                 >
                   Nossos Serviços
                 </a>
               </motion.div>
 
-              {/* Mini Stats - só no slide 1 */}
+              {/* Mini Stats - só no slide 1, escondido no mobile */}
               {slide.showStats && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border-subtle)]"
+                  className="hidden sm:flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-6 border-t border-[var(--border-subtle)]"
                 >
                   <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-lg bg-[var(--accent-glow)] flex items-center justify-center">
@@ -214,7 +214,7 @@ export default function Hero() {
                     </div>
                     <div>
                       <span className="block text-xl font-bold text-[var(--text-primary)]">
-                        <CountUp to={11} duration={2} />
+                        <CountUp to={12} duration={2} />
                       </span>
                       <span className="text-xs text-[var(--text-muted)]">
                         Estados
@@ -273,7 +273,7 @@ export default function Hero() {
                     src={slide.image}
                     alt={slide.imageAlt}
                     className={`w-full h-auto object-contain drop-shadow-2xl ${
-                      slide.id === 1 ? "max-h-[80vh] scale-110 lg:scale-125" : "max-h-[70vh] rounded-2xl"
+                      slide.id === 1 ? "max-h-[32vh] sm:max-h-[40vh] lg:max-h-[80vh]" : "max-h-[28vh] sm:max-h-[35vh] lg:max-h-[70vh] rounded-2xl"
                     }`}
                   />
 
@@ -283,7 +283,7 @@ export default function Hero() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.6, delay: 0.5 }}
-                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 bg-[var(--bg-secondary)]/90 backdrop-blur-sm border border-[var(--border-subtle)] rounded-xl shadow-xl"
+                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl shadow-xl"
                     >
                       <span className="text-sm font-medium text-[var(--text-secondary)]">
                         {slide.imageCaption}
@@ -298,15 +298,15 @@ export default function Hero() {
       </div>
 
       {/* Indicadores de slide */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20">
         {heroSlides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`h-3 rounded-full transition-all duration-300 ${
+            className={`h-2 sm:h-3 rounded-full transition-all duration-300 ${
               currentSlide === index
-                ? "w-10 bg-[var(--accent-primary)]"
-                : "w-3 bg-[var(--text-muted)]/50 hover:bg-[var(--text-muted)]"
+                ? "w-8 sm:w-10 bg-[var(--accent-primary)]"
+                : "w-2 sm:w-3 bg-[var(--text-muted)]/50 hover:bg-[var(--text-muted)]"
             }`}
             aria-label={`Ir para slide ${index + 1}`}
           />

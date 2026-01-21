@@ -45,9 +45,9 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "bg-[var(--bg-primary)]/95 backdrop-blur-md"
+          ? "bg-[var(--bg-primary)]"
           : "bg-transparent"
       }`}
     >
@@ -132,7 +132,7 @@ export default function Navigation() {
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="bg-[var(--bg-secondary)]/95 backdrop-blur-md border-t border-[var(--border-subtle)]">
+        <div className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
           <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col gap-1">
             {navItems.map((item) => (
               <a

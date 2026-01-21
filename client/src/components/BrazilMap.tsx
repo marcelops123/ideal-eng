@@ -3,7 +3,7 @@ import { useState } from "react";
 
 // Estados atendidos pela IDEAL
 const ATTENDED_STATES = [
-  "MG", "GO", "TO", "MT", "MS", "RN", "PR", "RJ", "SP", "AM", "PA"
+  "MG", "GO", "TO", "MT", "MS", "RN", "PR", "RJ", "SP", "AM", "PA", "BA"
 ];
 
 const STATE_NAMES: Record<string, string> = {
@@ -151,20 +151,16 @@ export default function BrazilMap({ className = "" }: BrazilMapProps) {
           Estados Atendidos
         </h4>
         <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-          {attendedStatesList.map((state, index) => (
-            <motion.div
+          {attendedStatesList.map((state) => (
+            <div
               key={state}
-              initial={{ opacity: 0, x: 10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.03 }}
               className="flex items-center gap-2 group"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]" />
               <span className="text-sm text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] transition-colors">
                 {state}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

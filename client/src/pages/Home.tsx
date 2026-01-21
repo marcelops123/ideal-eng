@@ -86,18 +86,40 @@ const AnimatedSection: React.FC<{
   children: React.ReactNode;
   className?: string;
   id?: string;
-}> = ({ children, className = "", id }) => (
-  <motion.section
-    id={id}
-    className={className}
-    initial={{ opacity: 0, y: 28 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.18 }}
-    transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-  >
-    {children}
-  </motion.section>
-);
+}> = ({ children, className = "", id }) => {
+  const ref = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      id={id}
+      className={`${className} transition-[opacity,transform] duration-700 ease-out ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-7"
+      }`}
+    >
+      {children}
+    </section>
+  );
+};
 
 // Componente de título de seção reutilizável
 const SectionTitle: React.FC<{
@@ -186,23 +208,19 @@ export default function Home() {
                 {
                   icon: Globe,
                   title: "Cobertura Nacional",
-                  desc: "Presença em 11 estados brasileiros",
+                  desc: "Presença em 12 estados brasileiros",
                 },
                 {
                   icon: CheckCircle,
                   title: "Compliance Total",
                   desc: "Conformidade com todas as normas",
                 },
-              ].map((item, index) => {
+              ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <motion.div
+                  <div
                     key={item.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="group p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] transition-all duration-300 hover:-translate-y-1"
+                    className="group p-6 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] transition-colors duration-300"
                   >
                     <div className="w-12 h-12 rounded-xl bg-[var(--accent-glow)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent-primary)] transition-colors duration-300">
                       <Icon className="w-6 h-6 text-[var(--accent-primary)] group-hover:text-white transition-colors" />
@@ -213,7 +231,7 @@ export default function Home() {
                     <p className="text-sm text-[var(--text-muted)]">
                       {item.desc}
                     </p>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -257,18 +275,14 @@ export default function Home() {
                 title: "Valores",
                 content:
                   "Comprometimento com a qualidade, ética, segurança e valorização das pessoas em tudo o que fazemos.",
-                accent: "border-t-4 border-t-[var(--accent-primary)]",
+                accent: "border-r-4 border-r-[var(--accent-primary)]",
               },
-            ].map((item, index) => {
+            ].map((item) => {
               const Icon = item.icon;
               return (
-                <motion.div
+                <div
                   key={item.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  className={`group p-8 bg-[var(--bg-tertiary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-glow)] ${item.accent}`}
+                  className={`group p-8 bg-[var(--bg-tertiary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] transition-colors duration-300 ${item.accent}`}
                 >
                   <div className="w-14 h-14 rounded-2xl bg-[var(--accent-glow)] flex items-center justify-center mb-6">
                     <Icon className="w-7 h-7 text-[var(--accent-primary)]" />
@@ -279,7 +293,7 @@ export default function Home() {
                   <p className="text-[var(--text-secondary)] leading-relaxed">
                     {item.content}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -326,14 +340,10 @@ export default function Home() {
                 photo: "/images/bg-guilherme.png",
                 bio: "Engenheiro Mecânico formado pela UFU e pós-graduado em Engenharia de Segurança do Trabalho. Mais de uma década de atuação em SSMA com passagens por Monsanto, Biosev, Nidera/Syngenta, CMOC e LongPing em funções de analista, especialista e coordenador corporativo.",
               },
-            ].map((d, index) => (
-              <motion.div
+            ].map((d) => (
+              <div
                 key={d.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="group bg-[var(--bg-tertiary)] rounded-3xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[var(--accent-glow)]"
+                className="group bg-[var(--bg-tertiary)] rounded-3xl border border-[var(--border-subtle)] hover:border-[var(--border-accent)] overflow-hidden transition-colors duration-300"
               >
                 <div className="p-8">
                   <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -366,7 +376,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -390,7 +400,7 @@ export default function Home() {
               <div className="flex gap-8">
                 <div className="group">
                   <div className="text-5xl md:text-6xl font-bold text-[var(--text-primary)] tracking-tight">
-                    <CountUp to={11} duration={2.5} />
+                    <CountUp to={12} duration={2.5} />
                   </div>
                   <div className="text-lg text-[var(--text-secondary)] mt-1">
                     Estados
@@ -485,16 +495,12 @@ export default function Home() {
                 desc: "Diagnósticos, auditorias, investigações e licenciamento ambiental.",
                 icon: SlidersHorizontal,
               },
-            ].map((s, index) => {
+            ].map((s) => {
               const Icon = s.icon;
               return (
-                <motion.div
+                <div
                   key={s.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="group p-6 bg-[var(--bg-tertiary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-glow)]"
+                  className="group p-6 bg-[var(--bg-tertiary)] rounded-2xl border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] transition-colors duration-300"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[var(--accent-glow)] flex items-center justify-center mb-4 group-hover:bg-[var(--accent-primary)] transition-colors duration-300">
                     <Icon className="w-6 h-6 text-[var(--accent-primary)] group-hover:text-white transition-colors" />
@@ -505,7 +511,7 @@ export default function Home() {
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                     {s.desc}
                   </p>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -515,20 +521,20 @@ export default function Home() {
       {/* SEÇÃO: ESPAÇO CONFINADO */}
       <AnimatedSection
         id="espaco-confinado"
-        className="relative min-h-[600px] overflow-hidden"
+        className="relative min-h-[500px] lg:min-h-[600px] overflow-hidden"
       >
         {/* Background */}
         <div className="absolute inset-0">
           <img
-            src="/images/bg-espaco-confinado.png"
+            src="/images/apresentacao.png"
             alt="Espaço Confinado"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-primary)]/95 via-[var(--bg-primary)]/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-primary)] via-[var(--bg-primary)]/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-[var(--bg-primary)]/60" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32">
+        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-accent)] bg-[var(--accent-glow)] mb-6">
               <Award className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -558,7 +564,6 @@ export default function Home() {
               className="inline-flex items-center gap-2 mt-8 px-6 py-3.5 text-base font-semibold text-white bg-[var(--accent-primary)] hover:bg-[var(--accent-secondary)] rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent-glow)]"
             >
               Saiba Mais
-              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
         </div>
@@ -572,34 +577,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Coluna Esquerda - Imagem */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative"
-            >
-              <div
-                className="absolute -inset-4 rounded-3xl opacity-30 blur-2xl"
-                style={{
-                  background:
-                    "radial-gradient(circle, var(--accent-primary) 0%, transparent 70%)",
-                }}
-              />
+            <div className="relative">
               <img
                 src="/images/tec.png"
                 alt="Terceirização de Profissionais em Segurança do Trabalho"
                 className="relative w-full h-auto"
               />
-            </motion.div>
+            </div>
 
             {/* Coluna Direita - Conteúdo */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
+            <div>
               <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] leading-tight mb-8">
                 Terceirização de Profissionais em{" "}
                 <span className="text-[var(--accent-primary)]">
@@ -629,13 +616,9 @@ export default function Home() {
                     title: "Gestão técnica especializada",
                     desc: "A IDEAL SST assume o acompanhamento e a responsabilidade técnica do serviço.",
                   },
-                ].map((item, index) => (
-                  <motion.div
+                ].map((item) => (
+                  <div
                     key={item.title}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                     className="flex gap-4"
                   >
                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[var(--accent-primary)] flex items-center justify-center mt-0.5">
@@ -649,10 +632,10 @@ export default function Home() {
                         {item.desc}
                       </p>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </AnimatedSection>
@@ -713,7 +696,7 @@ export default function Home() {
                       <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/40 transition-all duration-300" />
                       {/* Ícone de expandir */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300">
-                        <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-black/40 flex items-center justify-center">
                           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                           </svg>
@@ -757,12 +740,12 @@ export default function Home() {
 
           {/* Track animado com CSS animation para loop seamless */}
           <div
-            className="flex items-center gap-12 md:gap-16 py-4 animate-marquee"
+            className="flex items-center py-4 animate-marquee"
             style={{ width: "max-content" }}
           >
             {/* Logos duplicadas para loop infinito seamless */}
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex items-center gap-12 md:gap-16">
+              <div key={setIndex} className="flex items-center">
                 {[
                   { src: "/images/parceiros/p1.png", alt: "Parceiros - Grupo 1" },
                   { src: "/images/parceiros/p2.png", alt: "Parceiros - Grupo 2" },
@@ -773,7 +756,7 @@ export default function Home() {
                 ].map((logo, index) => (
                   <div
                     key={`${setIndex}-${index}`}
-                    className={`flex items-center flex-shrink-0 ${index === 0 ? "h-10 md:h-12 translate-y-0.5" : index === 1 ? "h-11 md:h-14" : "h-10 md:h-12"}`}
+                    className={`flex items-center flex-shrink-0 px-6 md:px-8 ${index === 0 ? "h-10 md:h-12 translate-y-0.5" : index === 1 ? "h-11 md:h-14" : "h-10 md:h-12"}`}
                   >
                     <img
                       src={logo.src}
@@ -977,7 +960,7 @@ export default function Home() {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Label no canto superior esquerdo */}
-              <div className="absolute top-4 left-4 z-10 bg-[var(--bg-primary)]/90 backdrop-blur-sm px-4 py-3 rounded-lg">
+              <div className="absolute top-4 left-4 z-10 bg-[var(--bg-primary)] px-4 py-3 rounded-lg">
                 <h3 className="text-xl font-bold text-white">
                   {lightboxPhoto.empresa}
                 </h3>
