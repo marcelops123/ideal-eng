@@ -723,7 +723,7 @@ export default function Home() {
       {/* SEÇÃO: PARCEIROS */}
       <AnimatedSection
         id="parceiros"
-        className="relative py-10 md:py-14 bg-white overflow-hidden"
+        className="relative py-6 md:py-10 bg-white overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-6 mb-8">
           <SectionTitle centered subtitle="Grandes empresas que confiam no padrão IDEAL">
@@ -746,17 +746,13 @@ export default function Home() {
             {/* Logos duplicadas para loop infinito seamless */}
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex items-center">
-                {[
-                  { src: "/images/parceiros/p1.png", alt: "Parceiros - Grupo 1" },
-                  { src: "/images/parceiros/p2.png", alt: "Parceiros - Grupo 2" },
-                  { src: "/images/parceiros/p3.png", alt: "Parceiros - Grupo 3" },
-                  { src: "/images/parceiros/p4.png", alt: "Parceiros - Grupo 4" },
-                  { src: "/images/parceiros/p5.png", alt: "Parceiros - Grupo 5" },
-                  { src: "/images/parceiros/p6.png", alt: "Parceiros - Grupo 6" },
-                ].map((logo, index) => (
+                {Array.from({ length: 18 }, (_, i) => ({
+                  src: `/images/parceiros/${i + 1}.png`,
+                  alt: `Parceiro ${i + 1}`,
+                })).map((logo, index) => (
                   <div
                     key={`${setIndex}-${index}`}
-                    className={`flex items-center flex-shrink-0 px-6 md:px-8 ${index === 0 ? "h-10 md:h-12 translate-y-0.5" : index === 1 ? "h-11 md:h-14" : "h-10 md:h-12"}`}
+                    className="flex items-center flex-shrink-0 px-4 md:px-6 h-28 md:h-36"
                   >
                     <img
                       src={logo.src}
