@@ -828,10 +828,6 @@ export default function Home() {
                 alt="IDEAL"
                 className="h-10 w-auto"
               />
-              <p className="mt-4 text-[var(--text-secondary)] max-w-md">
-                Assessoria especializada em Engenharia, Segurança do Trabalho,
-                Saúde Ocupacional e Meio Ambiente. De Minas para o Brasil.
-              </p>
             </div>
 
             {/* Links rápidos */}
