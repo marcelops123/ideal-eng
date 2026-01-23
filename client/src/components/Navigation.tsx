@@ -53,22 +53,12 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-lg overflow-hidden border border-[var(--border-subtle)] group-hover:border-[var(--accent-primary)] transition-colors duration-300">
-            <img
-              src="/images/logo-ideal-eng.png"
-              alt="IDEAL Engenharia"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="hidden sm:block">
-            <span className="text-[var(--text-primary)] font-bold text-lg tracking-tight block leading-tight">
-              IDEAL
-            </span>
-            <span className="text-[var(--text-muted)] text-[10px] uppercase tracking-[0.15em]">
-              Engenharia + SST
-            </span>
-          </div>
+        <a href="#" className="flex items-center group">
+          <img
+            src="/images/logo.png"
+            alt="IDEAL Engenharia"
+            className="h-8 sm:h-10 w-auto"
+          />
         </a>
 
         {/* Desktop Navigation */}

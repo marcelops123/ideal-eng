@@ -823,21 +823,11 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-12">
             {/* Logo e descrição */}
             <div className="md:col-span-2">
-              <div className="flex items-center gap-3">
-                <img
-                  src="/images/logo-ideal-eng.png"
-                  alt="IDEAL"
-                  className="w-12 h-12"
-                />
-                <div>
-                  <span className="text-xl font-bold text-[var(--text-primary)]">
-                    IDEAL
-                  </span>
-                  <span className="block text-xs text-[var(--text-muted)]">
-                    Engenharia + SST
-                  </span>
-                </div>
-              </div>
+              <img
+                src="/images/logo.png"
+                alt="IDEAL"
+                className="h-10 w-auto"
+              />
               <p className="mt-4 text-[var(--text-secondary)] max-w-md">
                 Assessoria especializada em Engenharia, Segurança do Trabalho,
                 Saúde Ocupacional e Meio Ambiente. De Minas para o Brasil.
