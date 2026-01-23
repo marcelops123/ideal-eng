@@ -747,7 +747,7 @@ export default function Home() {
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex items-center">
                 {Array.from({ length: 18 }, (_, i) => ({
-                  src: `/images/parceiros/${i + 1}.png`,
+                  src: `/images/parceiros/${i + 1}.webp`,
                   alt: `Parceiro ${i + 1}`,
                 })).map((logo, index) => (
                   <div
